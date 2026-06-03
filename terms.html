@@ -1,155 +1,212 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Termos de Uso — Fintab</title>
+  <meta name="description" content="Termos de Uso do Fintab — controle financeiro pessoal. Inclui Apple Standard EULA.">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" crossorigin="anonymous">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f9fafb;
-      color: #1a1a2e;
-      line-height: 1.7;
-    }
-    header {
-      background: linear-gradient(135deg, #1565C0, #1E88E5);
-      color: white;
-      padding: 40px 24px 32px;
-      text-align: center;
-    }
-    header h1 { font-size: 1.8rem; font-weight: 700; }
-    header p { margin-top: 6px; opacity: 0.85; font-size: 0.95rem; }
-    main {
-      max-width: 780px;
-      margin: 40px auto;
-      padding: 0 24px 64px;
-    }
-    h2 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #1565C0;
-      margin: 32px 0 10px;
-      padding-bottom: 6px;
-      border-bottom: 2px solid #e3eafc;
-    }
-    p { margin-bottom: 12px; font-size: 0.95rem; }
-    ul { padding-left: 20px; margin-bottom: 12px; }
-    ul li { margin-bottom: 6px; font-size: 0.95rem; }
-    footer {
-      text-align: center;
-      padding: 24px;
-      font-size: 0.82rem;
-      color: #888;
-      border-top: 1px solid #e5e7eb;
-    }
-    a { color: #1565C0; }
+    :root { --green:#00C97A; --green-dark:#00A86B; --green-light:#e8faf3; --bg:#fff; --bg2:#f7f9fc; --text:#0f172a; --text-muted:#64748b; --border:#e2e8f0; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.65}
+    nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-size:1.35rem;font-weight:800;color:var(--green-dark);letter-spacing:-.5px;text-decoration:none}
+    .nav-links{display:flex;align-items:center;gap:8px}
+    .nav-links a{color:var(--text-muted);text-decoration:none;font-size:.9rem;font-weight:500;padding:6px 14px;border-radius:8px}
+    .nav-links a:hover{background:var(--bg2);color:var(--text)}
+    .lang{font-size:.85rem;color:var(--text-muted);padding:4px 10px;border:1px solid var(--border);border-radius:6px;text-decoration:none}
+    .lang:hover{background:var(--green-light);color:var(--green-dark);border-color:var(--green)}
+    main{max-width:760px;margin:48px auto;padding:0 24px 96px}
+    .updated{color:var(--text-muted);font-size:.95rem;margin-bottom:32px;padding:12px 16px;background:var(--bg2);border-left:3px solid var(--green);border-radius:4px}
+    h1{font-size:2.25rem;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+    h2{font-size:1.4rem;font-weight:700;margin-top:40px;margin-bottom:16px;color:var(--green-dark);letter-spacing:-.3px}
+    h3{font-size:1.05rem;font-weight:700;margin-top:24px;margin-bottom:8px}
+    p{margin-bottom:16px}
+    ul,ol{margin:0 0 16px 24px}
+    li{margin-bottom:6px}
+    strong{font-weight:700}
+    a{color:var(--green-dark)}
+    a:hover{color:var(--green)}
+    blockquote{margin:20px 0;padding:12px 16px;background:var(--bg2);border-left:3px solid var(--green);border-radius:4px;color:var(--text-muted);font-size:.95rem}
+    hr{border:none;border-top:1px solid var(--border);margin:32px 0}
+    footer{max-width:760px;margin:0 auto;padding:32px 24px;border-top:1px solid var(--border);font-size:.85rem;color:var(--text-muted);text-align:center}
+    footer a{color:var(--text-muted);margin:0 8px}
+    @media (max-width:600px){h1{font-size:1.75rem}h2{font-size:1.2rem}nav{padding:0 16px}main{margin-top:24px;padding-bottom:64px}}
   </style>
 </head>
 <body>
+  <nav>
+    <a href="/" class="nav-logo">Fintab</a>
+    <div class="nav-links">
+      <a href="/" class="lang">← Início</a>
+      <a href="/terms-en" class="lang">EN</a>
+    </div>
+  </nav>
 
-<header>
-  <h1>Termos de Uso</h1>
-  <p>Fintab — Controle Financeiro Pessoal</p>
-</header>
+  <main>
+    <h1>Termos de Uso</h1>
+    <p class="updated">Última atualização: 3 de junho de 2026</p>
 
-<main>
-  <p>Última atualização: 30 de março de 2026</p>
+    <p>Bem-vindo ao Fintab. Estes Termos de Uso ("Termos") regulam a sua relação com o Fintab, aplicativo de finanças pessoais desenvolvido por <strong>Alexandre Figueiredo F Costa Filho</strong> (atuando sob a marca <strong>VerticalTI</strong>), CPF cadastrado junto à Receita Federal do Brasil ("nós", "Fintab"). Ao baixar, instalar ou usar o app, você concorda integralmente com estes Termos.</p>
 
-  <p>
-    Ao instalar ou usar o aplicativo <strong>Fintab</strong>, você concorda com
-    os termos descritos neste documento. Leia-os com atenção antes de utilizar
-    o app.
-  </p>
+    <hr>
 
-  <h2>1. Aceitação dos termos</h2>
-  <p>
-    O uso do Fintab implica na aceitação integral destes Termos de Uso. Caso não
-    concorde com qualquer parte, não utilize o aplicativo.
-  </p>
+    <h2>1. Definições e aceitação</h2>
+    <ul>
+      <li><strong>"App" ou "Fintab":</strong> o aplicativo móvel Fintab para iOS e Android, incluindo todas as versões futuras.</li>
+      <li><strong>"Você" / "Usuário":</strong> pessoa física que baixa, instala ou usa o Fintab.</li>
+      <li><strong>"Pro":</strong> plano de assinatura pago que desbloqueia funcionalidades premium.</li>
+      <li><strong>"Loja":</strong> Apple App Store (iOS) ou Google Play Store (Android).</li>
+    </ul>
+    <p>Ao instalar, criar conta ou usar o Fintab, você declara ter <strong>13 anos ou mais</strong> e concordar com estes Termos. Se não concorda, não use o app.</p>
 
-  <h2>2. Descrição do serviço</h2>
-  <p>
-    O Fintab é um aplicativo de controle financeiro pessoal que permite ao usuário
-    registrar receitas, despesas, orçamentos e gerenciar carteiras. Algumas
-    funcionalidades avançadas estão disponíveis exclusivamente no plano Pro,
-    mediante assinatura paga.
-  </p>
+    <h2>2. Licença de uso</h2>
+    <p>Concedemos a você uma licença <strong>não exclusiva, intransferível, revogável e gratuita</strong> para usar o Fintab apenas para fins pessoais e não comerciais, em dispositivos que você possui ou controla.</p>
+    <p>Você <strong>não pode</strong>:</p>
+    <ul>
+      <li>Sublicenciar, alugar, vender ou ceder o app ou sua conta a terceiros</li>
+      <li>Fazer engenharia reversa, descompilar ou tentar extrair o código-fonte</li>
+      <li>Modificar, copiar ou criar trabalhos derivados</li>
+      <li>Remover ou alterar marcas, logos ou avisos de direitos autorais</li>
+      <li>Usar o app para finalidade ilegal ou que viole direitos de terceiros</li>
+    </ul>
 
-  <h2>3. Conta do usuário</h2>
-  <ul>
-    <li>O usuário é responsável por manter a confidencialidade das credenciais de acesso.</li>
-    <li>É proibido compartilhar a conta com terceiros não autorizados.</li>
-    <li>O usuário é responsável por todas as atividades realizadas em sua conta.</li>
-  </ul>
+    <h2>3. Conta de usuário</h2>
+    <p>Para usar o Fintab é necessário criar uma conta via e-mail/senha, Sign in with Apple ou Google Sign-In. Você é responsável por:</p>
+    <ul>
+      <li>Fornecer informações verdadeiras e mantê-las atualizadas</li>
+      <li>Manter a confidencialidade da sua senha</li>
+      <li>Toda a atividade que ocorre na sua conta</li>
+      <li>Notificar-nos imediatamente em caso de uso não autorizado</li>
+    </ul>
+    <p>Podemos suspender ou encerrar contas que violem estes Termos.</p>
 
-  <h2>4. Assinatura Pro</h2>
-  <ul>
-    <li>O plano Pro é oferecido nas modalidades mensal (R$ 5,00/mês) e anual (R$ 50,00/ano).</li>
-    <li>O pagamento é processado exclusivamente pela <strong>Google Play Store</strong> ou <strong>App Store</strong>.</li>
-    <li>As assinaturas renovam automaticamente ao final de cada período, salvo cancelamento pelo usuário nas configurações da loja.</li>
-    <li>Não realizamos reembolsos fora das políticas da respectiva loja de aplicativos.</li>
-  </ul>
+    <h2>4. Conduta proibida</h2>
+    <p>Você concorda em não:</p>
+    <ul>
+      <li>Usar o Fintab para finalidade ilegal, fraudulenta ou que cause dano</li>
+      <li>Tentar acessar contas de outros usuários</li>
+      <li>Interferir, sobrecarregar ou comprometer a segurança do app ou de nossos servidores</li>
+      <li>Usar bots, scrapers ou outras formas automatizadas de acesso sem nosso consentimento</li>
+      <li>Inserir dados que infrinjam direitos de terceiros</li>
+    </ul>
 
-  <h2>5. Uso aceitável</h2>
-  <p>O usuário concorda em não:</p>
-  <ul>
-    <li>Usar o app para fins ilegais ou fraudulentos.</li>
-    <li>Tentar acessar dados de outros usuários.</li>
-    <li>Realizar engenharia reversa, descompilar ou modificar o aplicativo.</li>
-    <li>Utilizar o app de forma que prejudique sua disponibilidade ou desempenho.</li>
-  </ul>
+    <h2>5. Propriedade intelectual</h2>
+    <p>O Fintab — incluindo código-fonte, design, marca, logotipo, ícones, conteúdo e documentação — é de propriedade exclusiva de <strong>Alexandre Figueiredo F Costa Filho (VerticalTI)</strong> e está protegido pela legislação brasileira e internacional de direitos autorais e propriedade intelectual.</p>
+    <p>Os <strong>seus dados financeiros pessoais</strong> (transações, orçamentos, metas, categorias) <strong>continuam pertencendo a você</strong>. Você nos concede apenas a licença mínima necessária para armazenar, processar e exibir esses dados conforme nossa <a href="/privacy">Política de Privacidade</a>.</p>
 
-  <h2>6. Responsabilidades e limitações</h2>
-  <p>
-    O Fintab é uma ferramenta de organização pessoal e <strong>não constitui
-    consultoria financeira</strong>. As informações exibidas são baseadas
-    exclusivamente nos dados inseridos pelo próprio usuário. Não nos
-    responsabilizamos por decisões financeiras tomadas com base no uso do app.
-  </p>
-  <p>
-    O serviço é fornecido "no estado em que se encontra", sem garantias de
-    disponibilidade ininterrupta. Faremos esforços razoáveis para manter o
-    serviço estável, mas não garantimos ausência de falhas ou interrupções.
-  </p>
+    <h2>6. Assinatura Fintab Pro</h2>
+    <p>O Fintab oferece um plano pago chamado <strong>Fintab Pro</strong>, em duas modalidades:</p>
+    <ul>
+      <li><strong>Mensal:</strong> R$ 4,90/mês</li>
+      <li><strong>Anual:</strong> R$ 49,90/ano (~R$ 4,16/mês)</li>
+    </ul>
+    <p>(Os preços podem variar conforme o tier vigente da Apple/Google e por país. Preço final exibido pela loja prevalece.)</p>
 
-  <h2>7. Propriedade intelectual</h2>
-  <p>
-    Todo o conteúdo do Fintab — incluindo código, design, ícones e textos —
-    é propriedade de <strong>Alexandre Figueiredo Dev</strong> e protegido
-    por leis de direitos autorais. É proibida a reprodução sem autorização prévia.
-  </p>
+    <h3>6.1 Renovação automática</h3>
+    <ul>
+      <li>A assinatura é <strong>renovada automaticamente</strong> ao final de cada período pelo mesmo valor.</li>
+      <li>Para evitar a renovação, cancele <strong>até 24 horas antes</strong> do término do período atual.</li>
+      <li>A cobrança ocorre na sua conta da loja (Apple ou Google) na confirmação da compra e a cada renovação.</li>
+    </ul>
 
-  <h2>8. Rescisão</h2>
-  <p>
-    Reservamo-nos o direito de suspender ou encerrar contas que violem estes
-    termos, sem aviso prévio. O usuário pode encerrar sua conta a qualquer
-    momento solicitando a exclusão de dados pelo e-mail abaixo.
-  </p>
+    <h3>6.2 Cancelamento</h3>
+    <p>Você pode cancelar a qualquer momento:</p>
+    <ul>
+      <li><strong>iPhone/iPad:</strong> Ajustes → [seu nome] → Assinaturas → Fintab Pro → Cancelar Assinatura</li>
+      <li><strong>Android:</strong> Google Play Store → ☰ → Assinaturas → Fintab Pro → Cancelar</li>
+    </ul>
+    <p>Após o cancelamento, você continua com acesso Pro até o fim do período já pago.</p>
 
-  <h2>9. Alterações nos termos</h2>
-  <p>
-    Podemos atualizar estes Termos periodicamente. O uso continuado do app
-    após as alterações implica na aceitação dos novos termos.
-  </p>
+    <h3>6.3 Reembolso</h3>
+    <p>Reembolsos são processados exclusivamente pela Apple ou Google, conforme as políticas de cada loja:</p>
+    <ul>
+      <li>Apple: <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a></li>
+      <li>Google: <a href="https://support.google.com/googleplay/answer/2479637" target="_blank" rel="noopener">Política de reembolso do Google Play</a></li>
+    </ul>
+    <p>Não temos acesso direto ao seu pagamento e não emitimos reembolso por fora da loja.</p>
 
-  <h2>10. Legislação aplicável</h2>
-  <p>
-    Estes Termos são regidos pelas leis brasileiras, em especial a
-    Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018) e o
-    Código de Defesa do Consumidor.
-  </p>
+    <h3>6.4 Alteração de preço</h3>
+    <p>Se alterarmos o preço da assinatura, você será notificado antes da próxima renovação e poderá cancelar antes de a alteração entrar em vigor.</p>
 
-  <h2>11. Contato</h2>
-  <p>
-    <strong>Alexandre Figueiredo Dev</strong><br />
-    E-mail: <a href="mailto:alexandre.filho.dev@gmail.com">alexandre.filho.dev@gmail.com</a>
-  </p>
-</main>
+    <h2>7. EULA — Apple Standard End User License Agreement</h2>
+    <p>Para usuários iOS, esta seção complementa os Termos com as cláusulas obrigatórias da Apple. O Fintab adota o <strong>Apple Standard EULA</strong>, disponível em <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener">apple.com/legal/internet-services/itunes/dev/stdeula</a>, com os seguintes esclarecimentos:</p>
+    <ol>
+      <li><strong>O contrato é entre você e o Fintab</strong> (Alexandre Figueiredo F Costa Filho), não entre você e a Apple. O Fintab é o único responsável pelo app e seu conteúdo.</li>
+      <li><strong>A Apple não tem obrigação</strong> de prestar serviços de manutenção ou suporte ao app.</li>
+      <li><strong>A Apple não tem responsabilidade</strong> por qualquer garantia, expressa ou implícita, sobre o app.</li>
+      <li><strong>A Apple não tem responsabilidade</strong> por reclamações relacionadas ao app, incluindo (mas não limitado a): reclamações de responsabilidade pelo produto, reclamações de não conformidade com requisitos legais ou regulatórios, ou reclamações de proteção ao consumidor.</li>
+      <li><strong>A Apple não tem responsabilidade</strong> por investigação, defesa, acordo ou pagamento de qualquer reclamação de terceiros de que o app viole direitos de propriedade intelectual de terceiros.</li>
+      <li><strong>A Apple e suas subsidiárias são terceiros beneficiários</strong> destes Termos e, ao aceitar, você concorda que a Apple tem o direito de fazer cumprir estes Termos contra você como terceiro beneficiário.</li>
+    </ol>
 
-<footer>
-  &copy; 2026 Alexandre Figueiredo Dev — Fintab. Todos os direitos reservados.
-</footer>
+    <h2>8. Disclaimer e ausência de aconselhamento financeiro</h2>
+    <p>O Fintab é uma ferramenta de <strong>organização pessoal</strong>. Não somos consultores financeiros, contadores ou advogados.</p>
+    <p>O app é fornecido <strong>"COMO ESTÁ" (AS IS)</strong>, sem garantias de qualquer tipo, expressas ou implícitas, incluindo garantias de comerciabilidade, adequação a um propósito específico ou não violação. Não garantimos:</p>
+    <ul>
+      <li>Que o app estará livre de erros ou interrupções</li>
+      <li>Que os cálculos e relatórios sejam precisos para fins fiscais ou contábeis</li>
+      <li>Resultados financeiros específicos a partir do uso do app</li>
+    </ul>
+    <p>Consulte sempre profissionais qualificados antes de tomar decisões financeiras ou tributárias importantes.</p>
 
+    <h2>9. Limitação de responsabilidade</h2>
+    <p>Na máxima extensão permitida pela legislação brasileira (CDC Lei 8.078/90 respeitado), o Fintab e seus desenvolvedores <strong>não são responsáveis por</strong>:</p>
+    <ul>
+      <li>Perdas indiretas, incidentais, consequenciais ou lucros cessantes</li>
+      <li>Perda de dados decorrente de causa fora do nosso controle razoável</li>
+      <li>Decisões financeiras que você tome com base em informações do app</li>
+      <li>Indisponibilidade temporária por manutenção, falhas de terceiros (Apple, Google, Firebase) ou força maior</li>
+    </ul>
+    <p>Nada nestes Termos limita responsabilidades que, por força de lei, não podem ser excluídas.</p>
+
+    <h2>10. Modificações dos Termos</h2>
+    <p>Podemos atualizar estes Termos a qualquer momento. Mudanças relevantes serão comunicadas dentro do app ou por e-mail com pelo menos <strong>30 dias de antecedência</strong>. O uso continuado após a vigência das mudanças constitui aceite. Se discordar, encerre sua conta.</p>
+
+    <h2>11. Rescisão</h2>
+    <p>Você pode encerrar sua conta a qualquer momento em <strong>Ajustes → Conta → Excluir conta</strong>. Podemos suspender ou encerrar sua conta sem aviso prévio se você violar estes Termos.</p>
+    <p>Após o encerramento, os efeitos das seções 5 (Propriedade Intelectual), 8 (Disclaimer), 9 (Limitação de Responsabilidade) e 13 (Lei aplicável) sobrevivem.</p>
+
+    <h2>12. Suporte</h2>
+    <p>Dúvidas, sugestões ou problemas? Envie e-mail para <a href="mailto:alexandreweb2@gmail.com">alexandreweb2@gmail.com</a>. Respondemos em até <strong>5 dias úteis</strong>.</p>
+
+    <h2>13. Lei aplicável e foro</h2>
+    <p>Estes Termos são regidos pelas leis da <strong>República Federativa do Brasil</strong>. Para conflitos de consumo, fica eleito o foro do <strong>domicílio do consumidor</strong> (CDC Art. 101, I). Demais litígios: foro da Comarca de domicílio do desenvolvedor.</p>
+
+    <h2>14. Privacidade</h2>
+    <p>O tratamento dos seus dados pessoais está descrito em detalhe na nossa <a href="/privacy">Política de Privacidade</a>, que é parte integrante destes Termos.</p>
+
+    <h2>15. Disposições gerais</h2>
+    <ul>
+      <li><strong>Acordo integral:</strong> estes Termos + a Política de Privacidade representam o acordo completo entre você e o Fintab sobre o uso do app.</li>
+      <li><strong>Independência das cláusulas:</strong> se alguma cláusula for considerada inválida, as demais permanecem em vigor.</li>
+      <li><strong>Não renúncia:</strong> o não exercício de qualquer direito não implica renúncia ao mesmo.</li>
+      <li><strong>Cessão:</strong> você não pode ceder estes Termos. Podemos cedê-los em caso de reorganização societária ou venda, mediante aviso prévio razoável.</li>
+    </ul>
+
+    <h2>16. Outras versões / Other languages</h2>
+    <p>Estes Termos estão disponíveis em:</p>
+    <ul>
+      <li><strong>Português (Brasil)</strong> — esta página</li>
+      <li><strong>English (U.S.)</strong> — <a href="/terms-en">Terms of Use</a></li>
+    </ul>
+
+    <hr>
+
+    <p style="color:var(--text-muted);font-size:.9rem;text-align:center">Ao continuar usando o Fintab, você confirma que leu e concorda com estes Termos.</p>
+  </main>
+
+  <footer>
+    <p>© 2026 Fintab — Alexandre Figueiredo F Costa Filho (VerticalTI)</p>
+    <p>
+      <a href="/privacy">Privacidade (PT)</a> ·
+      <a href="/privacy-en">Privacy (EN)</a> ·
+      <a href="/terms">Termos (PT)</a> ·
+      <a href="/terms-en">Terms (EN)</a>
+    </p>
+  </footer>
 </body>
 </html>
