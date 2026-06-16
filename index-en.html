@@ -541,8 +541,42 @@
       .download-bg { padding: 64px 24px; }
       .cta-section { padding: 64px 24px; }
     }
+
+    /* ── Visual polish & conversion ── */
+    body { background: linear-gradient(180deg, var(--green-light) 0%, #ffffff 16%); }
+    .hero h1 span {
+      background: linear-gradient(120deg, var(--green) 0%, var(--green-dark) 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .feature-card:hover {
+      border-color: var(--green);
+      box-shadow: var(--shadow-md), 0 0 24px rgba(0,201,122,0.10);
+      transform: translateY(-4px);
+    }
+    .btn-primary { box-shadow: 0 4px 20px rgba(0,201,122,0.3), inset 0 1px 0 rgba(255,255,255,0.25); }
+    .btn-primary:hover { box-shadow: 0 10px 34px rgba(0,201,122,0.40); }
+    .store-btn-play:hover, .store-btn-apple:hover { box-shadow: 0 8px 30px rgba(15,23,42,0.30); }
+
+    .js .reveal { opacity: 0; transform: translateY(22px); }
+    .reveal.revealed { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s ease; }
+
+    .mobile-dl { display: none; }
+    @media (max-width: 768px) {
+      .mobile-dl {
+        display: flex; align-items: center; justify-content: space-between; gap: 10px;
+        position: fixed; bottom: 0; left: 0; right: 0; z-index: 99;
+        background: var(--green); padding: 10px 14px;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.14);
+      }
+      .mobile-dl-text { color: #fff; font-size: 0.8rem; font-weight: 700; line-height: 1.2; }
+      .mobile-dl-btns { display: flex; gap: 8px; flex-shrink: 0; }
+      .mobile-dl-btn { background: #fff; color: var(--green-dark); font-weight: 800; font-size: 0.8rem; padding: 8px 12px; border-radius: 8px; text-decoration: none; }
+      body { padding-bottom: 62px; }
+    }
   </style>
 </head>
+<script>document.documentElement.classList.add('js');</script>
 <body>
 
 <!-- NAV -->
@@ -554,9 +588,18 @@
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="/privacy-en">Privacy</a></li>
     <li><a href="/terms-en">Terms</a></li>
-    <li><a href="https://my-finance-app-red-omega.vercel.app" class="nav-cta" target="_blank" rel="noopener">Open app ↗</a></li>
+    <li><a href="#download" class="nav-cta">Get the app ↓</a></li>
   </ul>
 </nav>
+
+<!-- MOBILE DOWNLOAD BAR -->
+<div class="mobile-dl">
+  <span class="mobile-dl-text">Get it free · 7 days of Pro</span>
+  <div class="mobile-dl-btns">
+    <a class="mobile-dl-btn" href="https://apps.apple.com/app/id6776314028" target="_blank" rel="noopener">iOS</a>
+    <a class="mobile-dl-btn" href="https://play.google.com/store/apps/details?id=com.alexdev.myfinanceapp" target="_blank" rel="noopener">Android</a>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -698,8 +741,8 @@
     </div>
     <div class="stat-divider"></div>
     <div class="stat-item">
-      <div class="stat-num">Android + Web</div>
-      <div class="stat-label">Available on</div>
+      <div class="stat-num">iOS · Android</div>
+      <div class="stat-label">+ web browser</div>
     </div>
     <div class="stat-divider"></div>
     <div class="stat-item">
@@ -729,13 +772,18 @@
       <p>The app reads bank notifications and automatically suggests entries. Your data never leaves your phone.</p>
     </div>
     <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Quick Capture</h3>
+      <p>Copy a value from another app and Fintab logs the transaction pre-filled. Recording an expense takes 3 seconds.</p>
+    </div>
+    <div class="feature-card">
       <div class="feature-icon">🔁</div>
-      <h3>Recurring Transactions</h3>
+      <h3>Recurring Transactions <span class="pro-badge">PRO</span></h3>
       <p>Set up recurring bills and income — the app logs them automatically so you never miss a payment.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">❤️</div>
-      <h3>Financial Health</h3>
+      <h3>Financial Health <span class="pro-badge">PRO</span></h3>
       <p>Get a clear snapshot of your financial situation with indicators that show where you stand and how to improve.</p>
     </div>
     <div class="feature-card">
@@ -774,6 +822,11 @@
       <h3>Sharing <span class="pro-badge">PRO</span></h3>
       <p>Manage finances together with a partner, family, or business partner — all synced in real time.</p>
     </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎁</div>
+      <h3>Refer &amp; earn Pro</h3>
+      <p>Invite friends to Fintab. When they start using it, you get 1 month of Pro free — with no limit on referrals.</p>
+    </div>
   </div>
 </section>
 
@@ -794,7 +847,7 @@
       <div class="step">
         <div class="step-num">02</div>
         <h3>Log your transactions</h3>
-        <p>Enter income and expenses manually, or let the app detect them automatically from your bank notifications.</p>
+        <p>Log in 3 seconds: copy a value from another app and Fintab fills it in. Or let it detect from your bank notifications.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
@@ -838,7 +891,7 @@
   <div class="center">
     <div class="section-tag">✦ Pricing</div>
     <h2 class="section-title">Start free,<br />upgrade when you're ready</h2>
-    <p class="section-subtitle">A full free plan for personal use. Pro for those who want to go further.</p>
+    <p class="section-subtitle">A full free plan for personal use. Pro with <strong>7 days free</strong> for those who want to go further.</p>
   </div>
   <div class="pricing-grid">
     <div class="pricing-card">
@@ -850,14 +903,14 @@
         <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>1 wallet</li>
         <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Default categories</li>
         <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Auto detection</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Basic budgets</li>
+        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Quick expense capture</li>
       </ul>
-      <a href="https://my-finance-app-red-omega.vercel.app" class="pricing-cta" target="_blank" rel="noopener">Start for free</a>
+      <a href="#download" class="pricing-cta">Get it free</a>
     </div>
     <div class="pricing-card">
       <div class="pricing-plan">Pro Monthly</div>
       <div class="pricing-price">$ 1<span>/mo</span></div>
-      <div class="pricing-detail">Auto-renews monthly</div>
+      <div class="pricing-detail">7 days free · then auto-renews monthly</div>
       <hr class="pricing-divider" />
       <ul class="pricing-features">
         <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Unlimited wallets</li>
@@ -866,7 +919,7 @@
         <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Sharing</li>
         <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Financial goals</li>
       </ul>
-      <a href="https://play.google.com/store/apps/details?id=com.alexdev.myfinanceapp" class="pricing-cta" target="_blank" rel="noopener">Subscribe in app</a>
+      <a href="#download" class="pricing-cta">Start 7 days free</a>
     </div>
     <div class="pricing-card highlighted">
       <div class="pricing-popular">MOST POPULAR</div>
@@ -880,10 +933,10 @@
         <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Early access to new features</li>
         <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Priority support</li>
       </ul>
-      <a href="https://play.google.com/store/apps/details?id=com.alexdev.myfinanceapp" class="pricing-cta" target="_blank" rel="noopener">Subscribe in app</a>
+      <a href="#download" class="pricing-cta">Start 7 days free</a>
     </div>
   </div>
-  <p class="pricing-note">Subscriptions processed by Google Play Store · Cancel anytime</p>
+  <p class="pricing-note">Subscriptions processed by the App Store and Google Play · Cancel anytime</p>
 </section>
 
 <!-- DOWNLOAD -->
@@ -933,9 +986,9 @@
 <section class="cta-section">
   <div class="cta-inner">
     <h2>Ready to take control<br />of your finances?</h2>
-    <p>Free forever on the basic plan. No credit card. Up and running in 2 minutes.</p>
-    <a href="https://my-finance-app-red-omega.vercel.app" class="btn-primary" target="_blank" rel="noopener">
-      Get started — it's free →
+    <p>Free to start, with 7 days of Pro. No credit card. Up and running in 2 minutes.</p>
+    <a href="#download" class="btn-primary">
+      Get it free · 7 days of Pro →
     </a>
   </div>
 </section>
@@ -950,6 +1003,20 @@
   </div>
   <div>© 2026 Alexandre Figueiredo Dev</div>
 </footer>
+
+<script>
+  (function(){
+    if (!('IntersectionObserver' in window)) return;
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('revealed'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.feature-card, .step, .pricing-card').forEach(function(el){
+      el.classList.add('reveal'); obs.observe(el);
+    });
+  })();
+</script>
 
 </body>
 </html>
