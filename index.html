@@ -25,6 +25,14 @@
   <meta property="og:image" content="/apple-touch-icon.png" />
 
   <style>
+  /* ===== motion tokens (motion-lab house style) ===== */
+  :root{
+    --dur-1:120ms;--dur-2:240ms;--dur-3:480ms;--dur-4:800ms;--dur-5:1200ms;
+    --ease-out:cubic-bezier(.22,.61,.36,1);
+    --ease-out-expo:cubic-bezier(.16,1,.3,1);
+    --ease-spring:linear(0,.006,.025 2.8%,.101 6.1%,.539 18.9%,.721 25.3%,.849,.938 34%,.996 39.4%,1.02,1.03 43.5%,1.03,1.02,1.004 60.9%,.995 69.5%,1);
+    --stagger:70ms;--reveal-shift:22px;
+  }
   /* ============ TOKENS ============ */
   :root {
     --brand: #00C97A;
@@ -169,6 +177,15 @@
   }
   .hero h1 em { font-style: normal; color: var(--brand-strong); position: relative; white-space: nowrap; }
   .hero h1 em::after { content:""; position:absolute; left:0; right:0; bottom: .06em; height: .12em; background: color-mix(in srgb, var(--brand) 40%, transparent); border-radius: 3px; z-index:-1; }
+  /* ===== motion: kinetic hero headline (masked word slide-up) ===== */
+  .hero h1 { line-height: 1.14; }
+  .hero h1 .w { display:inline-block; overflow:hidden; vertical-align:top; padding-bottom:.14em; margin-bottom:-.14em; }
+  .hero h1 .wi { display:inline-block; }
+  .js .hero h1.kinetic-armed .wi { transform: translateY(120%); transition: transform var(--dur-4) var(--ease-out-expo); transition-delay: calc(var(--stagger) * var(--i,0)); }
+  .js .hero h1.kinetic-armed.is-in .wi { transform: none; }
+  /* ===== motion: tilt layer for the hero mock ===== */
+  .mock-tilt { transform: perspective(1100px); transform-style: preserve-3d; }
+  [data-magnetic]{ will-change:transform; }
   .hero p.lead { font-size: 1.12rem; color: var(--ink-2); max-width: 40ch; line-height: 1.6; }
 
   .stores { display: flex; flex-wrap: wrap; gap: 10px; margin: 30px 0 20px; }
@@ -405,7 +422,7 @@
     <a class="nav-hide" href="#recursos">Recursos</a>
     <a class="nav-hide" href="#como">Como funciona</a>
     <a class="nav-hide" href="#planos">Planos</a>
-    <a class="cta" href="#baixar">Baixar grátis</a>
+    <a class="cta" href="#baixar" data-magnetic>Baixar grátis</a>
   </div>
 </nav>
 
@@ -424,7 +441,7 @@
   <div class="wrap hero-grid">
     <div class="hero-left">
       <span class="eyebrow">Finanças pessoais · feito no Brasil</span>
-      <h1>Seu dinheiro, enfim <em>sob controle</em> de verdade.</h1>
+      <h1 data-kinetic aria-label="Seu dinheiro, enfim sob controle de verdade."><span class="w"><span class="wi">Seu</span></span> <span class="w"><span class="wi">dinheiro,</span></span> <span class="w"><span class="wi">enfim</span></span> <em class="em"><span class="w"><span class="wi">sob</span></span> <span class="w"><span class="wi">controle</span></span></em> <span class="w"><span class="wi">de</span></span> <span class="w"><span class="wi">verdade.</span></span></h1>
       <p class="lead">Copiou um valor? O Fintab lança sozinho. Veja para onde vai cada real, planeje o mês e acompanhe até seus investimentos — num app leve e sem planilha.</p>
 
       <div class="stores">
@@ -450,8 +467,9 @@
     </div>
 
     <!-- MOCKUP -->
-    <div class="hero-right">
-      <div class="mock reveal">
+    <div class="hero-right" data-parallax="0.08">
+      <div class="mock-tilt" data-tilt>
+      <div class="mock">
         <div class="mock-head">
           <div class="who">
             <div class="avatar">F</div>
@@ -495,6 +513,7 @@
           <div class="fi">📋</div>
           <div><small>Copiado do banco</small><b>Detectamos R$ 89,90 → Lançar</b></div>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -693,7 +712,7 @@
           <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Dashboard, relatórios e insights</li>
           <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Bloqueio por PIN e biometria</li>
         </ul>
-        <a class="buy" href="#baixar">Baixar grátis</a>
+        <a class="buy" href="#baixar" data-magnetic>Baixar grátis</a>
       </div>
 
       <div class="plan reveal">
@@ -708,7 +727,7 @@
           <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Orçamentos, metas e recorrentes</li>
           <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Saúde financeira, import/export, tags</li>
         </ul>
-        <a class="buy" href="#baixar">Testar 7 dias grátis</a>
+        <a class="buy" href="#baixar" data-magnetic>Testar 7 dias grátis</a>
       </div>
 
       <div class="plan best reveal">
@@ -723,7 +742,7 @@
           <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Acesso a todas as novidades</li>
           <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Suporte prioritário</li>
         </ul>
-        <a class="buy" href="#baixar">Assinar plano anual</a>
+        <a class="buy" href="#baixar" data-magnetic>Assinar plano anual</a>
       </div>
     </div>
     <p class="price-note">Assinaturas processadas pela App Store e Google Play. O teste grátis de 7 dias vale no plano mensal; o anual é cobrado no ato. Cancele quando quiser.</p>
@@ -751,7 +770,7 @@
   <div class="wrap reveal">
     <h2>Pronto para saber<br>para onde vai o seu dinheiro?</h2>
     <p>Grátis para começar, com 7 dias de Pro. Sem cartão de crédito. Leva 2 minutos.</p>
-    <a class="btn-big" href="#baixar">Baixar grátis · 7 dias de Pro →</a>
+    <a class="btn-big" href="#baixar" data-magnetic>Baixar grátis · 7 dias de Pro →</a>
   </div>
 </section>
 
@@ -769,49 +788,50 @@
 </footer>
 
 <script>
-  (function(){
-    var root = document.documentElement;
-    root.classList.add('js');
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+(function(){
+  var root=document.documentElement; root.classList.add('js');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine=matchMedia('(pointer: fine)').matches;
 
-    // Reveal on scroll (+ stagger + bar growth)
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-        });
-      }, { threshold: 0.14, rootMargin: '0px 0px -60px 0px' });
-      document.querySelectorAll('.reveal, .stagger').forEach(function(el){ io.observe(el); });
-    } else {
-      document.querySelectorAll('.reveal, .stagger').forEach(function(el){ el.classList.add('in'); });
-    }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:0.14, rootMargin:'0px 0px -60px 0px'});
+    document.querySelectorAll('.reveal, .stagger').forEach(function(el){ io.observe(el); });
+  } else { document.querySelectorAll('.reveal, .stagger').forEach(function(el){ el.classList.add('in'); }); }
 
-    // Count-up for the hero balance
-    var el = document.querySelector('[data-count]');
-    if (el){
-      var target = parseInt(el.getAttribute('data-count'), 10);
-      var prefix = el.getAttribute('data-prefix') || '';
-      var fmt = function(n){ return prefix + n.toLocaleString('pt-BR'); };
-      if (reduce){ el.textContent = fmt(target); }
-      else {
-        var run = function(){
-          var start = null, dur = 1100;
-          function tick(ts){
-            if (!start) start = ts;
-            var p = Math.min((ts - start)/dur, 1);
-            var eased = 1 - Math.pow(1 - p, 3);
-            el.textContent = fmt(Math.round(target * eased));
-            if (p < 1) requestAnimationFrame(tick);
-          }
-          requestAnimationFrame(tick);
-        };
-        var io2 = new IntersectionObserver(function(en){
-          en.forEach(function(e){ if (e.isIntersecting){ run(); io2.disconnect(); } });
-        }, { threshold: 0.5 });
-        io2.observe(el);
-      }
-    }
-  })();
+  var el=document.querySelector('[data-count]');
+  if(el){ var target=parseInt(el.getAttribute('data-count'),10); var prefix=el.getAttribute('data-prefix')||'';
+    var fmt=function(n){ return prefix+n.toLocaleString('pt-BR'); };
+    if(reduce){ el.textContent=fmt(target); }
+    else{ var run=function(){ var s=null,d=1100; (function tick(ts){ if(!s)s=ts; var p=Math.min((ts-s)/d,1); var e=1-Math.pow(1-p,3); el.textContent=fmt(Math.round(target*e)); if(p<1) requestAnimationFrame(tick); })(0); };
+      var io2=new IntersectionObserver(function(en){ en.forEach(function(e){ if(e.isIntersecting){ run(); io2.disconnect(); } }); },{threshold:0.5}); io2.observe(el); } }
+
+  var title=document.querySelector('[data-kinetic]');
+  if(title && !reduce){ var wis=title.querySelectorAll('.wi');
+    wis.forEach(function(wi,i){ wi.style.setProperty('--i',i); wi.style.willChange='transform'; });
+    title.classList.add('kinetic-armed');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ title.classList.add('is-in'); }); });
+    var last=wis[wis.length-1]; if(last) last.addEventListener('transitionend', function(){ wis.forEach(function(wi){ wi.style.willChange=''; }); }, {once:true}); }
+
+  if(!reduce){ var items=[].slice.call(document.querySelectorAll('[data-parallax]')); var activeP=new Set(), appliedP=new Map();
+    var iop=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ activeP.add(e.target); e.target.style.willChange='transform'; } else { activeP.delete(e.target); e.target.style.willChange=''; } }); },{rootMargin:'20% 0px'});
+    items.forEach(function(elp){ iop.observe(elp); });
+    var tickingP=false; var updateP=function(){ var mid=innerHeight/2, writes=[];
+      activeP.forEach(function(elp){ var r=elp.getBoundingClientRect(); var natTop=r.top-(appliedP.get(elp)||0); var off=(natTop+r.height/2-mid)*Number(elp.dataset.parallax); writes.push([elp,off]); });
+      writes.forEach(function(p){ p[0].style.transform='translate3d(0,'+p[1].toFixed(1)+'px,0)'; appliedP.set(p[0],p[1]); }); tickingP=false; };
+    var onScrollP=function(){ if(!tickingP){ tickingP=true; requestAnimationFrame(updateP); } };
+    addEventListener('scroll', onScrollP, {passive:true}); addEventListener('resize', onScrollP, {passive:true}); updateP(); }
+
+  if(!reduce && fine){ var lerp=function(a,b,n){ return a+(b-a)*n; };
+    document.querySelectorAll('[data-magnetic]').forEach(function(elm){ var raf=0,cx=0,cy=0,tx=0,ty=0,strength=0.3;
+      var loop=function(){ tx=lerp(tx,cx,0.15); ty=lerp(ty,cy,0.15); elm.style.transform='translate3d('+tx.toFixed(2)+'px,'+ty.toFixed(2)+'px,0)'; if(Math.abs(cx-tx)>0.1||Math.abs(cy-ty)>0.1) raf=requestAnimationFrame(loop); else raf=0; };
+      var kick=function(){ if(!raf) raf=requestAnimationFrame(loop); };
+      elm.addEventListener('pointermove', function(e){ var r=elm.getBoundingClientRect(); cx=(e.clientX-(r.left+r.width/2))*strength; cy=(e.clientY-(r.top+r.height/2))*strength; kick(); });
+      elm.addEventListener('pointerleave', function(){ cx=0; cy=0; kick(); }); });
+    document.querySelectorAll('[data-tilt]').forEach(function(card){ var max=6;
+      card.addEventListener('pointermove', function(e){ var r=card.getBoundingClientRect(); var px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5; card.style.transition='transform var(--dur-1) linear'; card.style.transform='perspective(1100px) rotateY('+(px*max).toFixed(2)+'deg) rotateX('+(-py*max).toFixed(2)+'deg)'; });
+      card.addEventListener('pointerleave', function(){ card.style.transition='transform var(--dur-3) var(--ease-spring)'; card.style.transform='perspective(1100px) rotateY(0deg) rotateX(0deg)'; }); });
+  }
+})();
 </script>
 </body>
 </html>
