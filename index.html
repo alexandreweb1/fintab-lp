@@ -3,14 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Content Security Policy: restringe fontes de scripts, estilos e fontes tipográficas.
-       script-src 'none' — a página não carrega nenhum JS externo ou inline.
-       object-src 'none' — bloqueia Flash/plugins obsoletos.
-       base-uri 'self'   — impede injeção de <base> que redireciona links relativos. -->
+  <!-- CSP: sem JS/estilos/fontes de terceiros. A página é 100% self-contained. -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
-                 style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
-                 font-src https://fonts.gstatic.com;
+                 style-src 'self' 'unsafe-inline';
+                 font-src 'self';
                  img-src 'self' data:;
                  script-src 'unsafe-inline';
                  object-src 'none';
@@ -20,645 +17,372 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <meta name="description" content="Fintab é o app de finanças pessoais para quem quer ter controle real do próprio dinheiro. Registre gastos, crie orçamentos e analise suas finanças." />
+  <meta name="theme-color" content="#00C97A" />
+  <meta name="description" content="Fintab é o app de finanças pessoais para ter controle real do seu dinheiro: registre gastos em segundos, planeje o mês, controle cartão e acompanhe até seus investimentos." />
   <meta property="og:title" content="Fintab — Controle Financeiro Pessoal" />
-  <meta property="og:description" content="Controle gastos, orçamentos e finanças pessoais em um só lugar." />
+  <meta property="og:description" content="Controle gastos, contas, cartão e investimentos em um só app. Grátis para começar, com 7 dias de Pro." />
   <meta property="og:type" content="website" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet" crossorigin="anonymous" />
+  <meta property="og:image" content="/apple-touch-icon.png" />
 
   <style>
+  /* ============ TOKENS ============ */
+  :root {
+    --brand: #00C97A;
+    --brand-strong: #0A6B4E;
+    --brand-wash: #E7FAF1;
+    --brand-line: #C7EEDD;
+
+    --ink: #0B1512;
+    --ink-2: #47554F;
+    --ink-3: #75847D;
+    --ground: #FBFCFB;
+    --surface: #FFFFFF;
+    --surface-2: #F4F7F5;
+    --line: #E5EBE7;
+    --danger: #E5484D;
+
+    --radius: 18px;
+    --radius-sm: 12px;
+    --maxw: 1160px;
+    --shadow-sm: 0 1px 2px rgba(11,21,18,.05), 0 1px 3px rgba(11,21,18,.04);
+    --shadow-md: 0 8px 30px rgba(11,21,18,.07), 0 2px 8px rgba(11,21,18,.04);
+    --shadow-lg: 0 30px 70px rgba(11,21,18,.10), 0 8px 20px rgba(11,21,18,.06);
+    --ease: cubic-bezier(.22,.61,.36,1);
+    --font: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", system-ui, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
     :root {
-      --green: #00C97A;
-      --green-dark: #00A86B;
-      --green-light: #e8faf3;
-      --green-mid: #ccf5e5;
-      --bg: #ffffff;
-      --bg2: #f7f9fc;
-      --bg3: #eef2f8;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --text-light: #94a3b8;
-      --border: #e2e8f0;
-      --radius: 16px;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
-      --shadow-lg: 0 20px 48px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+      --brand: #22D896;
+      --brand-strong: #7BE9C2;
+      --brand-wash: #10241B;
+      --brand-line: #1E3B2E;
+      --ink: #EAF2EE;
+      --ink-2: #A7B5AE;
+      --ink-3: #7A8880;
+      --ground: #0A100D;
+      --surface: #121A16;
+      --surface-2: #17211C;
+      --line: #23302A;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+      --shadow-md: 0 8px 30px rgba(0,0,0,.45);
+      --shadow-lg: 0 30px 70px rgba(0,0,0,.55);
     }
+  }
+  :root[data-theme="light"] {
+    --brand:#00C97A; --brand-strong:#0A6B4E; --brand-wash:#E7FAF1; --brand-line:#C7EEDD;
+    --ink:#0B1512; --ink-2:#47554F; --ink-3:#75847D; --ground:#FBFCFB; --surface:#FFFFFF;
+    --surface-2:#F4F7F5; --line:#E5EBE7;
+    --shadow-sm:0 1px 2px rgba(11,21,18,.05),0 1px 3px rgba(11,21,18,.04);
+    --shadow-md:0 8px 30px rgba(11,21,18,.07),0 2px 8px rgba(11,21,18,.04);
+    --shadow-lg:0 30px 70px rgba(11,21,18,.10),0 8px 20px rgba(11,21,18,.06);
+  }
+  :root[data-theme="dark"] {
+    --brand:#22D896; --brand-strong:#7BE9C2; --brand-wash:#10241B; --brand-line:#1E3B2E;
+    --ink:#EAF2EE; --ink-2:#A7B5AE; --ink-3:#7A8880; --ground:#0A100D; --surface:#121A16;
+    --surface-2:#17211C; --line:#23302A;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+    --shadow-md:0 8px 30px rgba(0,0,0,.45);
+    --shadow-lg:0 30px 70px rgba(0,0,0,.55);
+  }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ============ BASE ============ */
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    background: var(--ground);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+  .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+  h1,h2,h3 { text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+  a { color: inherit; }
+  ::selection { background: var(--brand); color: #fff; }
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
-      height: 64px;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--green-dark);
-      letter-spacing: -0.5px;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      padding: 6px 14px;
-      border-radius: 8px;
-      transition: background 0.15s, color 0.15s;
-    }
-    .nav-links a:hover { background: var(--bg2); color: var(--text); }
-    .nav-cta {
-      background: var(--green) !important;
-      color: #fff !important;
-      font-weight: 700 !important;
-      padding: 8px 18px !important;
-      border-radius: 10px !important;
-      font-size: 0.88rem !important;
-      transition: background 0.15s, transform 0.15s !important;
-    }
-    .nav-cta:hover { background: var(--green-dark) !important; transform: translateY(-1px); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: .74rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--brand-strong);
+    background: var(--brand-wash); border: 1px solid var(--brand-line);
+    padding: 5px 12px; border-radius: 100px;
+  }
+  .h-sec {
+    font-size: clamp(1.7rem, 3.6vw, 2.5rem); font-weight: 750; line-height: 1.12;
+    margin: 18px 0 12px;
+  }
+  .sub-sec { font-size: 1.02rem; color: var(--ink-2); max-width: 46ch; line-height: 1.65; }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 64px;
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 120px 48px 80px;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--green-light);
-      border: 1px solid var(--green-mid);
-      border-radius: 100px;
-      padding: 5px 14px;
-      font-size: 0.8rem;
-      color: var(--green-dark);
-      font-weight: 600;
-      margin-bottom: 24px;
-    }
-    .hero h1 {
-      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
-      font-weight: 900;
-      line-height: 1.08;
-      letter-spacing: -1.5px;
-      margin-bottom: 20px;
-      color: var(--text);
-    }
-    .hero h1 span {
-      color: var(--green);
-    }
-    .hero-desc {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      max-width: 440px;
-      margin-bottom: 36px;
-      line-height: 1.75;
-      font-weight: 400;
-    }
+  /* scroll progress (native, GPU) */
+  .progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 100%; z-index: 200;
+    background: var(--brand); transform-origin: 0 50%; transform: scaleX(0);
+  }
+  @supports (animation-timeline: scroll()) {
+    .progress { animation: growbar linear both; animation-timeline: scroll(root); }
+  }
+  @keyframes growbar { to { transform: scaleX(1); } }
 
-    /* store badges */
-    .store-badges {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 28px;
-    }
-    .store-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 11px;
-      padding: 12px 20px;
-      border-radius: 12px;
-      text-decoration: none;
-      transition: transform 0.18s, box-shadow 0.18s;
-      min-width: 180px;
-    }
-    .store-btn:hover { transform: translateY(-2px); }
-    .store-btn-play {
-      background: #0f172a;
-      box-shadow: 0 2px 12px rgba(15,23,42,0.18);
-    }
-    .store-btn-play:hover { box-shadow: 0 6px 24px rgba(15,23,42,0.25); }
-    .store-btn-apple {
-      background: #0f172a;
-      box-shadow: 0 2px 12px rgba(15,23,42,0.18);
-    }
-    .store-btn-apple:hover { box-shadow: 0 6px 24px rgba(15,23,42,0.25); }
-    .store-btn-apple .store-btn-label { color: rgba(255,255,255,0.6); }
-    .store-btn-apple .store-btn-name { color: #fff; }
-    .store-btn-web {
-      background: var(--bg);
-      border: 1.5px solid var(--green);
-      box-shadow: 0 2px 12px rgba(0,201,122,0.1);
-    }
-    .store-btn-web:hover { box-shadow: 0 6px 24px rgba(0,201,122,0.18); background: var(--green-light); }
-    .store-btn-icon { width: 28px; height: 28px; flex-shrink: 0; }
-    .store-btn-text { display: flex; flex-direction: column; }
-    .store-btn-label { font-size: 0.65rem; font-weight: 500; line-height: 1; margin-bottom: 2px; }
-    .store-btn-name { font-size: 0.95rem; font-weight: 700; line-height: 1; }
-    .store-btn-play .store-btn-label { color: rgba(255,255,255,0.6); }
-    .store-btn-play .store-btn-name { color: #fff; }
-    .store-btn-web .store-btn-label { color: var(--text-muted); }
-    .store-btn-web .store-btn-name { color: var(--green-dark); }
+  /* ============ NAV ============ */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 62px; padding: 0 28px;
+    background: color-mix(in srgb, var(--ground) 82%, transparent);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo { display: inline-flex; align-items: center; gap: 9px; font-weight: 800; font-size: 1.22rem; letter-spacing: -0.03em; }
+  .logo .mark { width: 26px; height: 26px; border-radius: 7px; flex: 0 0 auto; box-shadow: var(--shadow-sm);
+    background: url(/apple-touch-icon.png) center/cover no-repeat; }
+  .nav-right { display: flex; align-items: center; gap: 6px; }
+  .nav-right a { text-decoration: none; color: var(--ink-2); font-size: .9rem; font-weight: 550; padding: 8px 12px; border-radius: 9px; transition: color .15s, background .15s; }
+  .nav-right a:hover { color: var(--ink); background: var(--surface-2); }
+  .nav-right .cta { background: var(--ink); color: var(--ground); font-weight: 650; padding: 9px 16px; }
+  .nav-right .cta:hover { background: var(--ink); opacity: .9; }
+  .nav-hide { }
+  @media (max-width: 780px){ .nav-hide { display: none; } }
 
-    .hero-trust {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .hero-trust-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-    .hero-trust-item svg { width: 14px; height: 14px; fill: var(--green); flex-shrink: 0; }
+  /* ============ HERO ============ */
+  .hero { position: relative; }
+  .hero::before {
+    content:""; position: absolute; inset: -10% -20% auto -20%; height: 620px; z-index: -1;
+    background:
+      radial-gradient(60% 60% at 78% 8%, color-mix(in srgb, var(--brand) 22%, transparent) 0%, transparent 60%),
+      radial-gradient(50% 50% at 8% 30%, color-mix(in srgb, var(--brand) 12%, transparent) 0%, transparent 55%);
+    filter: blur(8px);
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center;
+    padding: 72px 0 64px;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 5.4vw, 4rem); font-weight: 800; line-height: 1.04; letter-spacing: -0.035em;
+    margin: 22px 0 20px;
+  }
+  .hero h1 em { font-style: normal; color: var(--brand-strong); position: relative; white-space: nowrap; }
+  .hero h1 em::after { content:""; position:absolute; left:0; right:0; bottom: .06em; height: .12em; background: color-mix(in srgb, var(--brand) 40%, transparent); border-radius: 3px; z-index:-1; }
+  .hero p.lead { font-size: 1.12rem; color: var(--ink-2); max-width: 40ch; line-height: 1.6; }
 
-    /* ── DASHBOARD MOCKUP ── */
-    .dashboard {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 22px;
-      box-shadow: var(--shadow-lg);
-      animation: float 5s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    .dash-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .dash-title { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; }
-    .dash-month { font-size: 0.72rem; color: var(--text-muted); background: var(--bg2); padding: 3px 10px; border-radius: 6px; font-weight: 500; }
-    .dash-balance { margin-bottom: 18px; }
-    .dash-balance-label { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px; }
-    .dash-balance-value { font-size: 2rem; font-weight: 800; color: var(--green); letter-spacing: -1px; }
-    .dash-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-    .dash-mini-card { background: var(--bg2); border-radius: 12px; padding: 12px 14px; }
-    .dash-mini-label { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 4px; display: flex; align-items: center; gap: 5px; font-weight: 500; }
-    .dash-mini-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-    .dash-mini-value { font-size: 1.05rem; font-weight: 700; }
-    .dash-mini-value.income { color: var(--green); }
-    .dash-mini-value.expense { color: #ef4444; }
-    .dash-chart-label { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
-    .dash-bars { display: flex; align-items: flex-end; gap: 6px; height: 60px; }
-    .dash-bar-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
-    .dash-bar { width: 100%; border-radius: 4px 4px 0 0; background: #e2e8f0; }
-    .dash-bar.active { background: var(--green); }
-    .dash-bar-month { font-size: 0.58rem; color: var(--text-light); font-weight: 500; }
-    .dash-tx-label { font-size: 0.68rem; color: var(--text-muted); margin: 14px 0 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
-    .dash-tx { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
-    .dash-tx:last-child { border-bottom: none; }
-    .dash-tx-info { display: flex; align-items: center; gap: 10px; }
-    .dash-tx-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; flex-shrink: 0; }
-    .dash-tx-name { font-size: 0.76rem; font-weight: 600; color: var(--text); }
-    .dash-tx-cat { font-size: 0.65rem; color: var(--text-muted); }
-    .dash-tx-amount { font-size: 0.8rem; font-weight: 700; }
-    .dash-tx-amount.neg { color: #ef4444; }
-    .dash-tx-amount.pos { color: var(--green); }
+  .stores { display: flex; flex-wrap: wrap; gap: 10px; margin: 30px 0 20px; }
+  .store {
+    display: inline-flex; align-items: center; gap: 11px; text-decoration: none;
+    padding: 11px 18px; border-radius: 13px; transition: transform .18s var(--ease), box-shadow .18s;
+  }
+  .store:hover { transform: translateY(-2px); }
+  .store svg { width: 22px; height: 22px; flex: 0 0 auto; }
+  .store b { display:block; font-size: .95rem; font-weight: 700; line-height: 1.05; }
+  .store span { display:block; font-size: .64rem; opacity: .65; line-height: 1; margin-bottom: 2px; }
+  .store-dark { background: var(--ink); color: var(--ground); box-shadow: var(--shadow-sm); }
+  .store-out { background: var(--surface); color: var(--ink); border: 1.5px solid var(--brand); box-shadow: var(--shadow-sm); }
+  .store-out span { color: var(--ink-3); } .store-out b { color: var(--brand-strong); }
 
-    /* ── DIVIDER ── */
-    .divider-strip {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 28px 48px;
-    }
-    .divider-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 64px;
-      flex-wrap: wrap;
-    }
-    .stat-item { text-align: center; }
-    .stat-num {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--green-dark);
-      letter-spacing: -0.5px;
-    }
-    .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
-    .stat-divider { width: 1px; height: 36px; background: var(--border); }
+  .trust { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 6px; }
+  .trust li { list-style: none; display: flex; align-items: center; gap: 7px; font-size: .82rem; color: var(--ink-2); font-weight: 500; }
+  .trust svg { width: 15px; height: 15px; color: var(--brand); flex: 0 0 auto; }
+  ul { padding: 0; margin: 0; }
 
-    /* ── SECTIONS ── */
-    .section {
-      padding: 96px 48px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .section-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--green-light);
-      color: var(--green-dark);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 100px;
-      margin-bottom: 16px;
-    }
-    .section-title {
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: -0.5px;
-      margin-bottom: 16px;
-    }
-    .section-subtitle {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      max-width: 520px;
-      line-height: 1.7;
-      margin-bottom: 56px;
-    }
-    .center { text-align: center; }
-    .center .section-subtitle { margin-left: auto; margin-right: auto; }
+  /* ---- HERO MOCKUP ---- */
+  .mock {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 24px;
+    padding: 20px; box-shadow: var(--shadow-lg); position: relative;
+    animation: floaty 7s ease-in-out infinite;
+  }
+  @keyframes floaty { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
+  .mock-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .mock-head .who { display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--brand), var(--brand-strong)); display:grid; place-items:center; color:#fff; font-weight:800; font-size:.85rem; }
+  .mock-head .who small { display:block; color: var(--ink-3); font-size: .68rem; }
+  .mock-head .who strong { font-size: .84rem; }
+  .chip { font-size: .68rem; font-weight: 600; color: var(--ink-2); background: var(--surface-2); border:1px solid var(--line); padding: 4px 10px; border-radius: 8px; }
 
-    /* ── FEATURES GRID ── */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .feature-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    }
-    .feature-card:hover {
-      border-color: var(--green);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-3px);
-    }
-    .feature-icon {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      background: var(--green-light);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      margin-bottom: 16px;
-    }
-    .feature-card h3 {
-      font-size: 0.98rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text);
-    }
-    .feature-card p {
-      font-size: 0.87rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-    }
-    .pro-badge {
-      display: inline-block;
-      background: var(--green);
-      color: #fff;
-      font-size: 0.6rem;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 5px;
-      letter-spacing: 0.5px;
-    }
+  .balcard { background: linear-gradient(150deg, var(--brand-strong), color-mix(in srgb, var(--brand-strong) 70%, #063)); border-radius: 16px; padding: 16px 18px; color: #eafff6; margin-bottom: 12px; position: relative; overflow: hidden; }
+  .balcard::after { content:""; position:absolute; right:-30px; top:-30px; width:120px; height:120px; border-radius:50%; background: color-mix(in srgb, var(--brand) 40%, transparent); filter: blur(6px); }
+  .balcard small { font-size: .68rem; opacity: .8; letter-spacing: .04em; text-transform: uppercase; }
+  .balcard .big { font-size: 2.1rem; font-weight: 800; letter-spacing: -0.02em; margin-top: 2px; }
+  .balcard .delta { font-size: .74rem; opacity: .9; margin-top: 4px; }
 
-    /* ── HOW IT WORKS ── */
-    .how-bg {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-    }
-    .step {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .step-num {
-      width: 40px; height: 40px;
-      border-radius: 12px;
-      background: var(--green);
-      color: #fff;
-      font-size: 1rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .step h3 { font-size: 1rem; font-weight: 700; color: var(--text); }
-    .step p { font-size: 0.87rem; color: var(--text-muted); line-height: 1.65; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .stat { background: var(--surface-2); border: 1px solid var(--line); border-radius: 13px; padding: 12px 13px; }
+  .stat i { font-style: normal; font-size: .66rem; color: var(--ink-3); display: flex; align-items: center; gap: 6px; font-weight: 600; }
+  .stat .d { width:7px; height:7px; border-radius:50%; }
+  .stat b { font-size: 1.02rem; font-weight: 750; display:block; margin-top: 3px; }
+  .stat b.up { color: var(--brand-strong); } .stat b.down { color: var(--danger); }
 
-    /* ── PRIVACY BANNER ── */
-    .privacy-banner {
-      background: var(--text);
-      border-radius: 20px;
-      padding: 48px 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-      flex-wrap: wrap;
-      margin: 0 48px 96px;
-      max-width: 1100px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .privacy-left { flex: 1; min-width: 260px; }
-    .privacy-left h2 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 10px;
-      letter-spacing: -0.3px;
-    }
-    .privacy-left p { font-size: 0.92rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
-    .privacy-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .privacy-pill {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 100px;
-      padding: 7px 14px;
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.85);
-      font-weight: 500;
-    }
-    .privacy-pill svg { width: 14px; height: 14px; fill: var(--green); flex-shrink: 0; }
+  .safe { background: var(--brand-wash); border: 1px solid var(--brand-line); border-radius: 13px; padding: 11px 13px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+  .safe small { font-size: .7rem; color: var(--brand-strong); font-weight: 600; }
+  .safe b { font-size: .98rem; font-weight: 750; color: var(--brand-strong); }
 
-    /* ── PRICING ── */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      max-width: 860px;
-      margin: 0 auto;
-    }
-    .pricing-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px 26px;
-      text-align: left;
-      position: relative;
-      transition: box-shadow 0.2s;
-    }
-    .pricing-card:hover { box-shadow: var(--shadow-md); }
-    .pricing-card.highlighted {
-      border-color: var(--green);
-      background: #f0fdf8;
-    }
-    .pricing-popular {
-      position: absolute;
-      top: -12px; left: 50%; transform: translateX(-50%);
-      background: var(--green);
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 4px 14px;
-      border-radius: 100px;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-    }
-    .pricing-plan { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-    .pricing-price {
-      font-size: 2.6rem;
-      font-weight: 800;
-      line-height: 1;
-      color: var(--text);
-      letter-spacing: -1px;
-      margin-bottom: 4px;
-    }
-    .pricing-price span { font-size: 1rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0; }
-    .pricing-detail { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 24px; }
-    .pricing-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 20px; }
-    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-    .pricing-features li {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-    .pricing-features li svg { width: 16px; height: 16px; fill: var(--green); flex-shrink: 0; }
-    .pricing-cta {
-      display: block;
-      font-weight: 700;
-      padding: 12px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 0.92rem;
-      text-align: center;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .pricing-cta:hover { transform: translateY(-1px); }
-    .pricing-card.highlighted .pricing-cta {
-      background: var(--green);
-      color: #fff;
-    }
-    .pricing-card.highlighted .pricing-cta:hover { background: var(--green-dark); }
-    .pricing-card:not(.highlighted) .pricing-cta {
-      background: var(--bg2);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .pricing-card:not(.highlighted) .pricing-cta:hover { background: var(--bg3); }
-    .pricing-note { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 24px; }
+  .bars { display: flex; align-items: flex-end; gap: 7px; height: 56px; padding: 4px 2px 0; }
+  .bars .col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .bar { width: 100%; border-radius: 5px 5px 2px 2px; background: var(--line); height: var(--h,20%); transform-origin: bottom; transform: scaleY(0); transition: transform .9s var(--ease); }
+  .bar.on { background: var(--brand); box-shadow: 0 4px 12px color-mix(in srgb, var(--brand) 40%, transparent); }
+  .reveal.in .bar { transform: scaleY(1); }
+  .bars .col small { font-size: .55rem; color: var(--ink-3); }
+  .cap { font-size: .64rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; font-weight: 650; margin: 6px 2px 8px; }
 
-    /* ── DOWNLOAD ── */
-    .download-bg {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 96px 48px;
-      text-align: center;
-    }
-    .download-badges {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
+  .tx { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); }
+  .tx:first-of-type { border-top: none; }
+  .tx .l { display:flex; align-items:center; gap: 10px; }
+  .tx .ic { width: 30px; height: 30px; border-radius: 9px; display:grid; place-items:center; font-size: .82rem; }
+  .tx .t { font-size: .78rem; font-weight: 650; } .tx .c { font-size: .64rem; color: var(--ink-3); }
+  .tx .v { font-size: .8rem; font-weight: 750; } .tx .v.neg { color: var(--danger); } .tx .v.pos { color: var(--brand-strong); }
 
-    /* ── CTA FINAL ── */
-    .cta-section {
-      padding: 100px 48px;
-      text-align: center;
-    }
-    .cta-inner {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .cta-section h2 {
-      font-size: clamp(2rem, 4vw, 2.8rem);
-      font-weight: 800;
-      margin-bottom: 16px;
-      letter-spacing: -0.5px;
-    }
-    .cta-section p { color: var(--text-muted); margin-bottom: 36px; font-size: 1.05rem; line-height: 1.6; }
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--green);
-      color: #fff;
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 14px 32px;
-      border-radius: 12px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px rgba(0,201,122,0.3);
-    }
-    .btn-primary:hover {
-      background: var(--green-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(0,201,122,0.35);
-    }
+  .float-badge {
+    position: absolute; left: -22px; bottom: 44px; background: var(--surface); border: 1px solid var(--line);
+    box-shadow: var(--shadow-md); border-radius: 13px; padding: 10px 13px; display: flex; align-items: center; gap: 9px;
+    animation: floaty 7s ease-in-out infinite; animation-delay: -3.5s;
+  }
+  .float-badge .fi { width: 30px; height: 30px; border-radius: 9px; background: var(--brand-wash); display:grid; place-items:center; font-size:.95rem; }
+  .float-badge small { display:block; font-size:.62rem; color: var(--ink-3); }
+  .float-badge b { font-size:.8rem; }
+  @media (max-width: 520px){ .float-badge { display: none; } }
 
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-    footer a { color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
-    footer a:hover { color: var(--text); }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-logo { font-size: 1.1rem; font-weight: 800; color: var(--green-dark); }
+  /* ============ MARQUEE / VALUE STRIP ============ */
+  .strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface-2); }
+  .strip .wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; padding: 22px 28px; }
+  .kpi { text-align: center; }
+  .kpi b { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
+  .kpi small { display: block; font-size: .78rem; color: var(--ink-2); margin-top: 1px; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 960px) {
-      .hero {
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding: 100px 24px 60px;
-        gap: 48px;
-      }
-      .hero-desc { margin-left: auto; margin-right: auto; }
-      .store-badges { justify-content: center; }
-      .hero-trust { justify-content: center; }
-      .features-grid { grid-template-columns: repeat(2, 1fr); }
-      .steps-grid { grid-template-columns: 1fr; gap: 24px; }
-      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
-      .privacy-banner { padding: 36px; }
-    }
-    @media (max-width: 640px) {
-      nav { padding: 0 20px; }
-      .nav-links li:not(:last-child) { display: none; }
-      .section { padding: 64px 24px; }
-      .features-grid { grid-template-columns: 1fr; }
-      .divider-inner { gap: 32px; }
-      .stat-divider { display: none; }
-      footer { justify-content: center; text-align: center; }
-      .download-bg { padding: 64px 24px; }
-      .cta-section { padding: 64px 24px; }
-    }
+  /* ============ SECTION ============ */
+  section { padding: 92px 0; }
+  .sec-head { max-width: 640px; }
+  .sec-head.center { margin: 0 auto; text-align: center; }
+  .sec-head.center .sub-sec { margin-inline: auto; }
 
-    /* ── Polish visual & conversão ── */
-    body { background: linear-gradient(180deg, var(--green-light) 0%, #ffffff 16%); }
-    .hero h1 span {
-      background: linear-gradient(120deg, var(--green) 0%, var(--green-dark) 100%);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .feature-card:hover {
-      border-color: var(--green);
-      box-shadow: var(--shadow-md), 0 0 24px rgba(0,201,122,0.10);
-      transform: translateY(-4px);
-    }
-    .btn-primary { box-shadow: 0 4px 20px rgba(0,201,122,0.3), inset 0 1px 0 rgba(255,255,255,0.25); }
-    .btn-primary:hover { box-shadow: 0 10px 34px rgba(0,201,122,0.40); }
-    .store-btn-play:hover, .store-btn-apple:hover { box-shadow: 0 8px 30px rgba(15,23,42,0.30); }
+  /* JOBS */
+  .jobs { display: grid; gap: 18px; margin-top: 44px; }
+  .job {
+    display: grid; grid-template-columns: 260px 1fr; gap: 8px 40px; align-items: start;
+    padding: 30px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
+    transition: box-shadow .25s, border-color .25s, transform .25s var(--ease);
+  }
+  .job:hover { box-shadow: var(--shadow-md); border-color: var(--brand-line); }
+  .job-tag { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--brand-strong); }
+  .job h3 { font-size: 1.35rem; font-weight: 750; margin: 8px 0 8px; letter-spacing: -0.02em; }
+  .job > div:first-child p { color: var(--ink-2); font-size: .92rem; margin: 0; }
+  .caps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 22px; }
+  .capitem { display: flex; gap: 11px; align-items: flex-start; }
+  .capitem .ci { width: 34px; height: 34px; flex: 0 0 auto; border-radius: 10px; background: var(--brand-wash); display: grid; place-items: center; font-size: 1rem; }
+  .capitem b { font-size: .9rem; font-weight: 650; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .capitem p { font-size: .8rem; color: var(--ink-3); margin: 2px 0 0; line-height: 1.5; }
+  .tag-pro { font-size: .58rem; font-weight: 800; letter-spacing: .05em; color: #fff; background: var(--brand-strong); padding: 2px 6px; border-radius: 5px; }
+  .tag-free { font-size: .58rem; font-weight: 800; letter-spacing: .05em; color: var(--brand-strong); background: var(--brand-wash); border:1px solid var(--brand-line); padding: 1px 6px; border-radius: 5px; }
+  .tag-and { font-size: .56rem; font-weight: 700; color: var(--ink-3); background: var(--surface-2); border:1px solid var(--line); padding: 1px 6px; border-radius: 5px; }
+  @media (max-width: 860px){ .job { grid-template-columns: 1fr; gap: 20px; } .caps { grid-template-columns: 1fr; } }
 
-    /* scroll reveal — só esconde quando há JS (degrada visível sem JS) */
-    .js .reveal { opacity: 0; transform: translateY(22px); }
-    .reveal.revealed { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s ease; }
+  /* SPOTLIGHT */
+  .spot { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .spot.rev { direction: rtl; } .spot.rev > * { direction: ltr; }
+  .spot .panel {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px; box-shadow: var(--shadow-md);
+  }
+  .spot .h-sec { font-size: clamp(1.6rem, 3.2vw, 2.2rem); }
+  .mini-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 12px; border-radius: 11px; background: var(--surface-2); margin-bottom: 8px; }
+  .mini-row .ml { display: flex; align-items: center; gap: 11px; }
+  .mini-row .mi { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; font-weight: 800; font-size: .68rem; color: #fff; }
+  .mini-row .mt { font-size: .82rem; font-weight: 650; } .mini-row .ms { font-size: .66rem; color: var(--ink-3); }
+  .mini-row .mv { text-align: right; } .mini-row .mv b { font-size: .84rem; } .mini-row .mv small { display:block; font-size:.66rem; }
+  .pos { color: var(--brand-strong); } .neg { color: var(--danger); }
+  @media (max-width: 820px){ .spot { grid-template-columns: 1fr; gap: 32px; } .spot.rev { direction: ltr; } }
 
-    /* barra fixa de download no mobile */
-    .mobile-dl { display: none; }
-    @media (max-width: 768px) {
-      .mobile-dl {
-        display: flex; align-items: center; justify-content: space-between; gap: 10px;
-        position: fixed; bottom: 0; left: 0; right: 0; z-index: 99;
-        background: var(--green); padding: 10px 14px;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.14);
-      }
-      .mobile-dl-text { color: #fff; font-size: 0.8rem; font-weight: 700; line-height: 1.2; }
-      .mobile-dl-btns { display: flex; gap: 8px; flex-shrink: 0; }
-      .mobile-dl-btn { background: #fff; color: var(--green-dark); font-weight: 800; font-size: 0.8rem; padding: 8px 12px; border-radius: 8px; text-decoration: none; }
-      body { padding-bottom: 62px; }
-    }
-  </style>
+  /* STEPS */
+  .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-top: 44px; counter-reset: s; }
+  .step { padding: 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); position: relative; }
+  .step::before { counter-increment: s; content: counter(s,decimal-leading-zero); font-size: .8rem; font-weight: 800; color: var(--brand-strong); background: var(--brand-wash); border:1px solid var(--brand-line); width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; margin-bottom: 16px; }
+  .step h3 { font-size: 1.08rem; font-weight: 700; margin-bottom: 8px; }
+  .step p { color: var(--ink-2); font-size: .9rem; margin: 0; }
+  @media (max-width: 760px){ .steps { grid-template-columns: 1fr; } }
+
+  /* PRIVACY */
+  .privacy { background: var(--ink); border-radius: 24px; padding: 46px; color: var(--ground); }
+  :root[data-theme="dark"] .privacy, .privacy { }
+  @media (prefers-color-scheme: dark){ .privacy { background: #060a08; border: 1px solid var(--line); } }
+  :root[data-theme="dark"] .privacy { background: #060a08; border: 1px solid var(--line); }
+  :root[data-theme="light"] .privacy { background: var(--ink); border: none; }
+  .privacy h2 { font-size: 1.7rem; font-weight: 750; color: #fff; margin-bottom: 10px; }
+  .privacy > p { color: rgba(255,255,255,.62); max-width: 52ch; margin: 0 0 22px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 500; color: rgba(255,255,255,.9); background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); padding: 8px 14px; border-radius: 100px; }
+  .pill svg { width: 15px; height: 15px; color: var(--brand); }
+
+  /* PRICING */
+  .price-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; max-width: 940px; margin: 44px auto 0; }
+  .plan { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 24px; position: relative; display: flex; flex-direction: column; }
+  .plan.best { border-color: var(--brand); box-shadow: var(--shadow-md); }
+  .plan .flag { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--brand); color: #fff; font-size: .66rem; font-weight: 800; letter-spacing: .05em; padding: 4px 13px; border-radius: 100px; white-space: nowrap; }
+  .plan .pname { font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .plan .amount { display: flex; align-items: baseline; gap: 4px; margin: 12px 0 2px; }
+  .plan .amount b { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.03em; }
+  .plan .amount span { color: var(--ink-3); font-size: .95rem; font-weight: 500; }
+  .plan .fine { font-size: .8rem; color: var(--ink-2); min-height: 34px; }
+  .plan hr { border: none; border-top: 1px solid var(--line); margin: 18px 0; }
+  .plan ul li { list-style: none; display: flex; gap: 9px; align-items: flex-start; font-size: .85rem; color: var(--ink-2); margin-bottom: 10px; }
+  .plan ul li svg { width: 16px; height: 16px; color: var(--brand); flex: 0 0 auto; margin-top: 2px; }
+  .plan .buy { margin-top: auto; text-align: center; text-decoration: none; font-weight: 700; font-size: .92rem; padding: 12px; border-radius: 11px; transition: transform .15s, opacity .15s, background .15s; }
+  .plan .buy:hover { transform: translateY(-1px); }
+  .plan.best .buy { background: var(--brand); color: #fff; }
+  .plan:not(.best) .buy { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line); }
+  .price-note { text-align: center; font-size: .8rem; color: var(--ink-3); margin: 22px auto 0; max-width: 60ch; }
+  @media (max-width: 820px){ .price-grid { grid-template-columns: 1fr; max-width: 420px; } }
+
+  /* CTA + DOWNLOAD */
+  .download { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; }
+  .dl-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+  .cta-final { text-align: center; }
+  .cta-final h2 { font-size: clamp(2rem, 4.4vw, 3rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px; }
+  .cta-final p { color: var(--ink-2); font-size: 1.05rem; margin: 0 auto 30px; max-width: 44ch; }
+  .btn-big { display: inline-flex; align-items: center; gap: 9px; background: var(--brand); color: #fff; font-weight: 700; font-size: 1.02rem; padding: 15px 34px; border-radius: 14px; text-decoration: none; box-shadow: 0 10px 34px color-mix(in srgb, var(--brand) 35%, transparent); transition: transform .2s var(--ease), box-shadow .2s; }
+  .btn-big:hover { transform: translateY(-2px); box-shadow: 0 16px 46px color-mix(in srgb, var(--brand) 45%, transparent); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--line); }
+  footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 30px 28px; font-size: .84rem; color: var(--ink-3); }
+  footer a { text-decoration: none; color: var(--ink-2); }
+  footer a:hover { color: var(--ink); }
+  footer .flinks { display: flex; gap: 22px; flex-wrap: wrap; }
+
+  /* ============ REVEAL ============ */
+  .js .reveal { opacity: 0; transform: translateY(24px); }
+  .reveal.in { opacity: 1; transform: none; transition: opacity .7s var(--ease), transform .7s var(--ease); }
+  .js .stagger > * { opacity: 0; transform: translateY(20px); }
+  .stagger.in > * { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+  .stagger.in > *:nth-child(2){ transition-delay: .07s; }
+  .stagger.in > *:nth-child(3){ transition-delay: .14s; }
+  .stagger.in > *:nth-child(4){ transition-delay: .21s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+    .js .reveal, .js .stagger > * { opacity: 1 !important; transform: none !important; }
+    .bar { transform: scaleY(1) !important; }
+  }
+
+  @media (max-width: 900px){
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+    .hero p.lead { margin-inline: auto; } .stores, .trust { justify-content: center; }
+    .hero-right { max-width: 420px; margin: 0 auto; }
+  }
+
+  /* ---- mobile download bar ---- */
+  .mobile-dl { display: none; }
+  @media (max-width: 760px){
+    .mobile-dl { display:flex; align-items:center; justify-content:space-between; gap:10px; position:fixed; bottom:0; left:0; right:0; z-index:99; background:var(--brand); padding:10px 16px; box-shadow:0 -6px 24px rgba(0,0,0,.16); }
+    .mobile-dl-text { color:#fff; font-size:.82rem; font-weight:700; line-height:1.2; }
+    .mobile-dl-btns { display:flex; gap:8px; flex-shrink:0; }
+    .mobile-dl-btn { background:#fff; color:#0A6B4E; font-weight:800; font-size:.8rem; padding:8px 13px; border-radius:9px; text-decoration:none; }
+    body { padding-bottom: 60px; }
+  }
+</style>
 </head>
 <script>
   (function(){
@@ -672,17 +396,17 @@
 </script>
 <body>
 
+<div class="progress" aria-hidden="true"></div>
+
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Fintab</div>
-  <ul class="nav-links">
-    <li><a href="#features">Recursos</a></li>
-    <li><a href="#how">Como usar</a></li>
-    <li><a href="#pricing">Planos</a></li>
-    <li><a href="/privacy">Privacidade</a></li>
-    <li><a href="/terms">Termos</a></li>
-    <li><a href="#download" class="nav-cta">Baixar app ↓</a></li>
-  </ul>
+  <div class="logo"><span class="mark" role="img" aria-label="Fintab"></span>Fintab</div>
+  <div class="nav-right">
+    <a class="nav-hide" href="#recursos">Recursos</a>
+    <a class="nav-hide" href="#como">Como funciona</a>
+    <a class="nav-hide" href="#planos">Planos</a>
+    <a class="cta" href="#baixar">Baixar grátis</a>
+  </div>
 </nav>
 
 <!-- BARRA FIXA DE DOWNLOAD (mobile) -->
@@ -694,422 +418,400 @@
   </div>
 </div>
 
+
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="hero-badge">✦ Finanças pessoais simplificadas</div>
-    <h1>Pare de perder<br />dinheiro sem<br /><span>saber por quê</span></h1>
-    <p class="hero-desc">
-      O Fintab mostra em segundos para onde vai cada dinheiro. Controle gastos,
-      crie orçamentos e tome decisões com confiança — tudo em um app limpo e fácil de usar.
-    </p>
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-left">
+      <span class="eyebrow">Finanças pessoais · feito no Brasil</span>
+      <h1>Seu dinheiro, enfim <em>sob controle</em> de verdade.</h1>
+      <p class="lead">Copiou um valor? O Fintab lança sozinho. Veja para onde vai cada real, planeje o mês e acompanhe até seus investimentos — num app leve e sem planilha.</p>
 
-    <div class="store-badges">
-      <a href="https://apps.apple.com/app/id6776314028" class="store-btn store-btn-apple" target="_blank" rel="noopener">
-        <svg class="store-btn-icon" viewBox="0 0 24 24" fill="#fff">
-          <path d="M16.36 12.78c-.02-2.07 1.69-3.06 1.77-3.11-.97-1.41-2.47-1.6-3-1.62-1.27-.13-2.49.75-3.14.75-.65 0-1.65-.73-2.71-.71-1.39.02-2.68.81-3.4 2.06-1.45 2.51-.37 6.22 1.04 8.26.69 1 1.51 2.12 2.58 2.08 1.04-.04 1.43-.67 2.69-.67 1.25 0 1.61.67 2.71.65 1.12-.02 1.83-1.02 2.51-2.02.79-1.16 1.12-2.28 1.14-2.34-.02-.01-2.18-.84-2.2-3.31zM14.3 6.25c.57-.69.96-1.65.85-2.61-.83.03-1.83.55-2.42 1.24-.53.61-.99 1.59-.87 2.53.93.07 1.87-.47 2.44-1.16z"/>
-        </svg>
-        <div class="store-btn-text">
-          <span class="store-btn-label">Baixar na</span>
-          <span class="store-btn-name">App Store</span>
-        </div>
-      </a>
-      <a href="https://play.google.com/store/apps/details?id=com.alexdev.myfinanceapp" class="store-btn store-btn-play" target="_blank" rel="noopener">
-        <svg class="store-btn-icon" viewBox="0 0 24 24" fill="none">
-          <path d="M3.18 1C2.53 1.37 2 2.18 2 3.13V20.87C2 21.82 2.53 22.63 3.18 23L13.27 12L3.18 1Z" fill="rgba(255,255,255,0.7)"/>
-          <path d="M16.92 8.35L5.04 1.36L13.27 12L16.92 8.35Z" fill="rgba(255,255,255,0.85)"/>
-          <path d="M16.92 15.65L13.27 12L5.04 22.64L16.92 15.65Z" fill="rgba(255,255,255,0.85)"/>
-          <path d="M21.14 10.19C20.56 9.55 19.67 9.15 18.5 9.62L16.92 8.35L13.27 12L16.92 15.65L18.5 14.38C19.67 14.85 20.56 14.45 21.14 13.81C21.72 13.17 22 12.58 22 12C22 11.42 21.72 10.83 21.14 10.19Z" fill="rgba(255,255,255,0.95)"/>
-        </svg>
-        <div class="store-btn-text">
-          <span class="store-btn-label">Baixar na</span>
-          <span class="store-btn-name">Google Play</span>
-        </div>
-      </a>
+      <div class="stores">
+        <a class="store store-dark" href="https://apps.apple.com/app/id6776314028" target="_blank" rel="noopener" aria-label="Baixar na App Store">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.78c-.02-2.07 1.69-3.06 1.77-3.11-.97-1.41-2.47-1.6-3-1.62-1.27-.13-2.49.75-3.14.75-.65 0-1.65-.73-2.71-.71-1.39.02-2.68.81-3.4 2.06-1.45 2.51-.37 6.22 1.04 8.26.69 1 1.51 2.12 2.58 2.08 1.04-.04 1.43-.67 2.69-.67 1.25 0 1.61.67 2.71.65 1.12-.02 1.83-1.02 2.51-2.02.79-1.16 1.12-2.28 1.14-2.34-.02-.01-2.18-.84-2.2-3.31zM14.3 6.25c.57-.69.96-1.65.85-2.61-.83.03-1.83.55-2.42 1.24-.53.61-.99 1.59-.87 2.53.93.07 1.87-.47 2.44-1.16z"/></svg>
+          <div><span>Baixar na</span><b>App Store</b></div>
+        </a>
+        <a class="store store-dark" href="https://play.google.com/store/apps/details?id=com.alexdev.myfinanceapp" target="_blank" rel="noopener" aria-label="Disponível no Google Play">
+          <svg viewBox="0 0 24 24"><path d="M3.2 1C2.5 1.4 2 2.2 2 3.1v17.7c0 1 .5 1.8 1.2 2.1L13.3 12 3.2 1Z" fill="#00d162"/><path d="M16.9 8.4 5 1.4 13.3 12l3.6-3.6Z" fill="#00d162"/><path d="M16.9 15.6 13.3 12 5 22.6l11.9-7Z" fill="#00d162"/><path d="M21.1 10.2c-.6-.6-1.5-1-2.6-.6l-1.6 1.3L13.3 12l3.6 3.6 1.6-1.2c1.1.5 2 .1 2.6-.5.6-.7.9-1.3.9-1.9s-.3-1.2-.9-1.8Z" fill="#00d162"/></svg>
+          <div><span>Disponível no</span><b>Google Play</b></div>
+        </a>
+        <a class="store store-out" href="https://my-finance-app-red-omega.vercel.app" target="_blank" rel="noopener" aria-label="Acessar pelo navegador">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.3" stroke="currentColor" stroke-width="1.6"/><ellipse cx="12" cy="12" rx="3.4" ry="9.3" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M5 7.5h14M5 16.5h14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <div><span>Acessar pelo</span><b>Navegador</b></div>
+        </a>
+      </div>
 
-      <a href="https://my-finance-app-red-omega.vercel.app" class="store-btn store-btn-web" target="_blank" rel="noopener">
-        <svg class="store-btn-icon" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="9.5" stroke="#00A86B" stroke-width="1.6"/>
-          <ellipse cx="12" cy="12" rx="3.5" ry="9.5" stroke="#00A86B" stroke-width="1.6"/>
-          <path d="M2.5 12H21.5" stroke="#00A86B" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M4.5 7.5H19.5" stroke="#00A86B" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M4.5 16.5H19.5" stroke="#00A86B" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
-        <div class="store-btn-text">
-          <span class="store-btn-label">Acessar pelo</span>
-          <span class="store-btn-name">Navegador Web</span>
-        </div>
-      </a>
+      <ul class="trust">
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Grátis para começar</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Sem cartão de crédito</li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Exporte quando quiser</li>
+      </ul>
     </div>
 
-    <div class="hero-trust">
-      <div class="hero-trust-item">
-        <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-        Grátis para começar
-      </div>
-      <div class="hero-trust-item">
-        <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-        Sem cartão de crédito
-      </div>
-      <div class="hero-trust-item">
-        <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-        Dados 100% seus
+    <!-- MOCKUP -->
+    <div class="hero-right">
+      <div class="mock reveal">
+        <div class="mock-head">
+          <div class="who">
+            <div class="avatar">F</div>
+            <div><strong>Olá, você 👋</strong><small>Carteira pessoal</small></div>
+          </div>
+          <span class="chip num">Março 2026</span>
+        </div>
+
+        <div class="balcard">
+          <small>Saldo total</small>
+          <div class="big num" data-count="3240" data-prefix="R$ " data-sep="1">R$ 3.240</div>
+          <div class="delta num">▲ R$ 480 este mês</div>
+        </div>
+
+        <div class="duo">
+          <div class="stat"><i><span class="d" style="background:var(--brand)"></span>Receitas</i><b class="up num">R$ 6.500</b></div>
+          <div class="stat"><i><span class="d" style="background:var(--danger)"></span>Gastos</i><b class="down num">R$ 3.260</b></div>
+        </div>
+
+        <div class="safe">
+          <div><small>Pode gastar até dia 31</small><b class="num">R$ 41/dia</b></div>
+          <div style="text-align:right"><small style="color:var(--ink-3)">Restam</small><b class="num" style="color:var(--ink)">14 dias</b></div>
+        </div>
+
+        <div class="cap">Receitas × Gastos</div>
+        <div class="bars">
+          <div class="col"><div class="bar" style="--h:42%"></div><small>Out</small></div>
+          <div class="col"><div class="bar" style="--h:64%"></div><small>Nov</small></div>
+          <div class="col"><div class="bar" style="--h:38%"></div><small>Dez</small></div>
+          <div class="col"><div class="bar" style="--h:78%"></div><small>Jan</small></div>
+          <div class="col"><div class="bar" style="--h:54%"></div><small>Fev</small></div>
+          <div class="col"><div class="bar on" style="--h:50%"></div><small style="color:var(--brand-strong);font-weight:700">Mar</small></div>
+        </div>
+
+        <div class="cap">Últimas transações</div>
+        <div class="tx"><div class="l"><div class="ic" style="background:#fde8e8">🛒</div><div><div class="t">Supermercado</div><div class="c">Alimentação</div></div></div><div class="v neg num">−R$ 245</div></div>
+        <div class="tx"><div class="l"><div class="ic" style="background:var(--brand-wash)">💼</div><div><div class="t">Salário</div><div class="c">Receita</div></div></div><div class="v pos num">+R$ 6.500</div></div>
+        <div class="tx"><div class="l"><div class="ic" style="background:#fff3d6">⚡</div><div><div class="t">Conta de luz</div><div class="c">Moradia</div></div></div><div class="v neg num">−R$ 187</div></div>
+
+        <div class="float-badge">
+          <div class="fi">📋</div>
+          <div><small>Copiado do banco</small><b>Detectamos R$ 89,90 → Lançar</b></div>
+        </div>
       </div>
     </div>
   </div>
+</header>
 
-  <!-- Dashboard mockup -->
-  <div class="hero-right">
-    <div class="dashboard">
-      <div class="dash-header">
-        <span class="dash-title">Resumo financeiro</span>
-        <span class="dash-month">Mar 2026</span>
-      </div>
-      <div class="dash-balance">
-        <div class="dash-balance-label">Saldo atual</div>
-        <div class="dash-balance-value">R$ 3.240,00</div>
-      </div>
-      <div class="dash-row">
-        <div class="dash-mini-card">
-          <div class="dash-mini-label">
-            <span class="dash-mini-dot" style="background:var(--green)"></span>
-            Receitas
-          </div>
-          <div class="dash-mini-value income">R$ 6.500</div>
+<!-- VALUE STRIP -->
+<div class="strip">
+  <div class="wrap">
+    <div class="kpi"><b>iOS · Android · Web</b><small>Tudo sincronizado</small></div>
+    <div class="kpi"><b class="num">3 seg</b><small>Para lançar um gasto</small></div>
+    <div class="kpi"><b class="num">7 dias</b><small>De Pro grátis</small></div>
+    <div class="kpi"><b>R$ 0</b><small>Para começar</small></div>
+  </div>
+</div>
+
+<!-- FEATURES BY JOB -->
+<section id="recursos">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Recursos</span>
+      <h2 class="h-sec">Tudo do seu dinheiro,<br>organizado por objetivo</h2>
+      <p class="sub-sec">Do lançamento em 3 segundos ao acompanhamento dos investimentos. Comece grátis e evolua quando fizer sentido.</p>
+    </div>
+
+    <div class="jobs">
+      <!-- JOB 1 -->
+      <div class="job reveal">
+        <div>
+          <span class="job-tag">01 · Registrar</span>
+          <h3>Lançar sem esforço</h3>
+          <p>A parte mais chata vira automática. O Fintab captura o valor por você — em segundos.</p>
         </div>
-        <div class="dash-mini-card">
-          <div class="dash-mini-label">
-            <span class="dash-mini-dot" style="background:#ef4444"></span>
-            Gastos
-          </div>
-          <div class="dash-mini-value expense">R$ 3.260</div>
+        <div class="caps stagger">
+          <div class="capitem"><div class="ci">📋</div><div><b>Captura por cópia <span class="tag-free">GRÁTIS</span></b><p>Copiou um valor no app do banco? O Fintab detecta e abre o lançamento pronto. iOS e Android.</p></div></div>
+          <div class="capitem"><div class="ci">📤</div><div><b>Compartilhar para o app <span class="tag-free">GRÁTIS</span></b><p>Mande um comprovante ou mensagem para o Fintab e ele vira transação.</p></div></div>
+          <div class="capitem"><div class="ci">🔔</div><div><b>Notificação do banco <span class="tag-and">ANDROID</span></b><p>No Android, lê a notificação do banco e lança sozinho — opcional e sob seu comando.</p></div></div>
+          <div class="capitem"><div class="ci">✨</div><div><b>Categoria inteligente <span class="tag-free">GRÁTIS</span></b><p>Sugere a categoria pelo seu histórico e por regras que você cria. Tudo no aparelho.</p></div></div>
         </div>
       </div>
-      <div class="dash-chart-label">Gastos por mês</div>
-      <div class="dash-bars">
-        <div class="dash-bar-col"><div class="dash-bar" style="height:30px"></div><span class="dash-bar-month">Out</span></div>
-        <div class="dash-bar-col"><div class="dash-bar" style="height:46px"></div><span class="dash-bar-month">Nov</span></div>
-        <div class="dash-bar-col"><div class="dash-bar" style="height:26px"></div><span class="dash-bar-month">Dez</span></div>
-        <div class="dash-bar-col"><div class="dash-bar" style="height:54px"></div><span class="dash-bar-month">Jan</span></div>
-        <div class="dash-bar-col"><div class="dash-bar" style="height:38px"></div><span class="dash-bar-month">Fev</span></div>
-        <div class="dash-bar-col"><div class="dash-bar active" style="height:36px"></div><span class="dash-bar-month" style="color:var(--green);font-weight:700">Mar</span></div>
-      </div>
-      <div class="dash-tx-label">Últimas transações</div>
-      <div class="dash-tx">
-        <div class="dash-tx-info">
-          <div class="dash-tx-icon" style="background:#fee2e2">🛒</div>
-          <div><div class="dash-tx-name">Supermercado</div><div class="dash-tx-cat">Alimentação</div></div>
+
+      <!-- JOB 2 -->
+      <div class="job reveal">
+        <div>
+          <span class="job-tag">02 · Enxergar</span>
+          <h3>Clareza total do mês</h3>
+          <p>Um painel que você arruma do seu jeito e responde à pergunta que importa: para onde foi o dinheiro?</p>
         </div>
-        <div class="dash-tx-amount neg">−R$ 245</div>
-      </div>
-      <div class="dash-tx">
-        <div class="dash-tx-info">
-          <div class="dash-tx-icon" style="background:#dcfce7">💼</div>
-          <div><div class="dash-tx-name">Salário</div><div class="dash-tx-cat">Receita</div></div>
+        <div class="caps stagger">
+          <div class="capitem"><div class="ci">🧩</div><div><b>Painel personalizável <span class="tag-free">GRÁTIS</span></b><p>Arraste, mostre e oculte cards: saldo, contas, patrimônio, recorrências e mais.</p></div></div>
+          <div class="capitem"><div class="ci">💡</div><div><b>Insights automáticos <span class="tag-free">GRÁTIS</span></b><p>Alertas do próprio dado: orçamento no limite, picos de gasto, contas a vencer.</p></div></div>
+          <div class="capitem"><div class="ci">🗓️</div><div><b>Pode gastar até o fim do mês <span class="tag-free">GRÁTIS</span></b><p>O quanto ainda sobra por dia, já descontando o que está comprometido.</p></div></div>
+          <div class="capitem"><div class="ci">📊</div><div><b>Relatórios com gráficos <span class="tag-free">GRÁTIS</span></b><p>Pizza por categoria, evolução em linha e comparativos em barras — sem planilha.</p></div></div>
         </div>
-        <div class="dash-tx-amount pos">+R$ 6.500</div>
       </div>
-      <div class="dash-tx">
-        <div class="dash-tx-info">
-          <div class="dash-tx-icon" style="background:#fef9c3">⚡</div>
-          <div><div class="dash-tx-name">Conta de luz</div><div class="dash-tx-cat">Moradia</div></div>
+
+      <!-- JOB 3 -->
+      <div class="job reveal">
+        <div>
+          <span class="job-tag">03 · Planejar</span>
+          <h3>Planejar e não esquecer</h3>
+          <p>Contas na ponta do lápis, assinaturas sob controle e metas que andam sozinhas.</p>
         </div>
-        <div class="dash-tx-amount neg">−R$ 187</div>
+        <div class="caps stagger">
+          <div class="capitem"><div class="ci">📅</div><div><b>Contas a pagar + lembrete <span class="tag-free">GRÁTIS</span></b><p>Vencimentos com lembrete local (1, 3 ou 7 dias antes) e baixa que já lança a transação.</p></div></div>
+          <div class="capitem"><div class="ci">🔁</div><div><b>Detecção de assinaturas <span class="tag-free">GRÁTIS</span></b><p>Acha cobranças recorrentes (streaming, academia…) e mostra seu total mensal.</p></div></div>
+          <div class="capitem"><div class="ci">🎯</div><div><b>Orçamentos + metas <span class="tag-pro">PRO</span></b><p>Limite por categoria em tempo real, com acúmulo entre meses. Metas com progresso.</p></div></div>
+          <div class="capitem"><div class="ci">♻️</div><div><b>Transações recorrentes <span class="tag-pro">PRO</span></b><p>Aluguel, salário e assinaturas lançados sozinhos, sem duplicar.</p></div></div>
+        </div>
+      </div>
+
+      <!-- JOB 4 -->
+      <div class="job reveal">
+        <div>
+          <span class="job-tag">04 · Ir além</span>
+          <h3>O poder do Fintab Pro</h3>
+          <p>Quando o básico fica pequeno: várias contas, cartão, investimentos e finanças a dois.</p>
+        </div>
+        <div class="caps stagger">
+          <div class="capitem"><div class="ci">👛</div><div><b>Contas + Carteiras PF/PJ <span class="tag-pro">PRO</span></b><p>Quantas contas quiser e Carteiras separadas para pessoal e empresa, cada uma isolada.</p></div></div>
+          <div class="capitem"><div class="ci">💳</div><div><b>Cartão de crédito <span class="tag-pro">PRO</span></b><p>Faturas por ciclo, limite usado × disponível, fechamento, vencimento e pagamento.</p></div></div>
+          <div class="capitem"><div class="ci">📈</div><div><b>Investimentos <span class="tag-pro">PRO</span></b><p>Ações B3, ações EUA e cripto com cotação ao vivo, preço médio e resultado (P&L).</p></div></div>
+          <div class="capitem"><div class="ci">💱</div><div><b>Conversor de moedas <span class="tag-pro">PRO</span></b><p>Cotação real e saldo consolidado quando você tem contas em moedas diferentes.</p></div></div>
+          <div class="capitem"><div class="ci">👥</div><div><b>Compartilhar em tempo real <span class="tag-pro">PRO</span></b><p>Casal, família ou sócio na mesma Carteira, sincronizado na hora.</p></div></div>
+          <div class="capitem"><div class="ci">📎</div><div><b>Comprovantes + import/export <span class="tag-pro">PRO</span></b><p>Anexe foto/PDF, importe OFX/CSV do banco e exporte em PDF e Excel.</p></div></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- STATS STRIP -->
-<div class="divider-strip">
-  <div class="divider-inner">
-    <div class="stat-item">
-      <div class="stat-num">100%</div>
-      <div class="stat-label">Seus dados, na sua conta</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <div class="stat-num">0</div>
-      <div class="stat-label">Dados enviados a terceiros</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <div class="stat-num">iOS · Android</div>
-      <div class="stat-label">+ navegador web</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <div class="stat-num">R$ 0</div>
-      <div class="stat-label">Para começar</div>
-    </div>
-  </div>
-</div>
-
-<!-- FEATURES -->
-<section class="section" id="features">
-  <div class="center">
-    <div class="section-tag">✦ Funcionalidades</div>
-    <h2 class="section-title">Tudo que você precisa para<br />cuidar do seu dinheiro</h2>
-    <p class="section-subtitle">Sem planilhas, sem complicação. O Fintab organiza suas finanças de forma simples e visual</p>
-  </div>
-  <div class="features-grid">
-    <!-- ── Grátis ── -->
-    <div class="feature-card">
-      <div class="feature-icon">💰</div>
-      <h3>Controle de Gastos</h3>
-      <p>Registre receitas e despesas com categorias personalizadas. Saiba exatamente para onde vai cada centavo do seu dinheiro.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔔</div>
-      <h3>Detecção Automática</h3>
-      <p>O app lê notificações de bancos e sugere lançamentos automaticamente. Seus dados nunca saem do celular.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">⚡</div>
-      <h3>Captura Rápida</h3>
-      <p>Copie um valor de outro app e o Fintab lança a transação já preenchida. Registrar um gasto leva 3 segundos.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔁</div>
-      <h3>Transações Recorrentes <span class="pro-badge">PRO</span></h3>
-      <p>Cadastre contas e receitas que se repetem todo mês — o app lança automaticamente e você nunca esquece um pagamento.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">❤️</div>
-      <h3>Saúde Financeira <span class="pro-badge">PRO</span></h3>
-      <p>Receba um diagnóstico claro do seu momento financeiro com indicadores que mostram onde você está e como melhorar.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📁</div>
-      <h3>Importar e Exportar</h3>
-      <p>Traga dados de outras fontes ou exporte seus lançamentos em CSV a qualquer momento. Seus dados, sua liberdade.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔒</div>
-      <h3>Bloqueio por PIN</h3>
-      <p>Proteja o acesso ao app com um PIN exclusivo. Mais uma camada de segurança para suas informações financeiras.</p>
-    </div>
-    <!-- ── Pro ── -->
-    <div class="feature-card">
-      <div class="feature-icon">📊</div>
-      <h3>Visão Anual <span class="pro-badge">PRO</span></h3>
-      <p>Analise seus gastos mês a mês ao longo do ano inteiro e identifique padrões financeiros com gráficos claros.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">👛</div>
-      <h3>Múltiplas Carteiras <span class="pro-badge">PRO</span></h3>
-      <p>Organize seu dinheiro por carteira: conta corrente, poupança, cartão de crédito e o que mais precisar.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🎯</div>
-      <h3>Orçamentos <span class="pro-badge">PRO</span></h3>
-      <p>Defina limites mensais por categoria e acompanhe em tempo real se está dentro do planejado.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🏆</div>
-      <h3>Metas Financeiras <span class="pro-badge">PRO</span></h3>
-      <p>Defina objetivos de economia, acompanhe o progresso visualmente e conquiste suas metas com mais clareza.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">👥</div>
-      <h3>Compartilhamento <span class="pro-badge">PRO</span></h3>
-      <p>Gerencie finanças em conjunto com parceiro, família ou sócio — tudo sincronizado em tempo real.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🎁</div>
-      <h3>Indique e ganhe Pro</h3>
-      <p>Convide amigos para o Fintab. Quando começarem a usar, você ganha 1 mês de Pro grátis — sem limite de convites.</p>
+<!-- SPOTLIGHT: Investimentos -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="spot">
+      <div class="reveal">
+        <span class="eyebrow">Novidade · Pro</span>
+        <h2 class="h-sec">Seus investimentos, no mesmo app das contas</h2>
+        <p class="sub-sec">Acompanhe ações da B3, ações dos EUA e criptomoedas com cotação ao vivo. O Fintab calcula preço médio, valor de mercado e o resultado — realizado e não realizado — tudo consolidado em reais.</p>
+        <ul class="trust" style="margin-top:20px">
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Preço médio (custo médio brasileiro)</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Gráfico histórico interativo</li>
+        </ul>
+      </div>
+      <div class="panel reveal">
+        <div class="mock-head" style="margin-bottom:14px">
+          <div><small style="color:var(--ink-3);font-size:.68rem">Patrimônio investido</small><div class="num" style="font-size:1.7rem;font-weight:800">R$ 18.430</div></div>
+          <span class="chip pos num" style="border-color:var(--brand-line);background:var(--brand-wash);color:var(--brand-strong)">▲ 12,4%</span>
+        </div>
+        <div class="mini-row"><div class="ml"><div class="mi" style="background:#7A3FF2">PET</div><div><div class="mt">PETR4</div><div class="ms num">120 · PM R$ 32,10</div></div></div><div class="mv"><b class="num">R$ 4.152</b><small class="pos num">+8,2%</small></div></div>
+        <div class="mini-row"><div class="ml"><div class="mi" style="background:#0A6B4E">B3</div><div><div class="mt">ITUB4</div><div class="ms num">200 · PM R$ 28,40</div></div></div><div class="mv"><b class="num">R$ 6.220</b><small class="pos num">+9,5%</small></div></div>
+        <div class="mini-row"><div class="ml"><div class="mi" style="background:#F7931A">₿</div><div><div class="mt">Bitcoin</div><div class="ms num">0,04 BTC</div></div></div><div class="mv"><b class="num">R$ 8.058</b><small class="pos num">+18,0%</small></div></div>
+        <p style="font-size:.66rem;color:var(--ink-3);margin:12px 2px 0">Valores informativos, com atraso de ~15 min. Não é recomendação de investimento.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<div class="how-bg">
-  <section class="section" id="how">
-    <div class="center">
-      <div class="section-tag">✦ Como funciona</div>
-      <h2 class="section-title">Comece em menos de 2 minutos</h2>
-      <p class="section-subtitle">Sem burocracia. Você no controle total dos seus dados.</p>
+<!-- SPOTLIGHT: Cartão -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="spot rev">
+      <div class="reveal">
+        <span class="eyebrow">Pro</span>
+        <h2 class="h-sec">A fatura do cartão sem susto no fim do mês</h2>
+        <p class="sub-sec">Cadastre o cartão com limite, fechamento e vencimento. O Fintab monta a fatura de cada ciclo a partir dos seus lançamentos, mostra o limite usado e avisa o status — aberta, fechada, paga ou vencida.</p>
+        <ul class="trust" style="margin-top:20px">
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Limite usado × disponível</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Pagamento da fatura com baixa</li>
+        </ul>
+      </div>
+      <div class="panel reveal">
+        <div class="mini-row" style="background:linear-gradient(135deg,#7A3FF2,#5b28c9);color:#fff;padding:16px">
+          <div class="ml"><div><div class="mt" style="color:#fff">Nubank · final 4021</div><div class="ms" style="color:rgba(255,255,255,.75)">Fecha em 3 dias</div></div></div>
+          <div class="mv"><b class="num" style="color:#fff">R$ 1.840</b><small style="color:rgba(255,255,255,.8)">fatura aberta</small></div>
+        </div>
+        <div style="margin:14px 2px 6px;display:flex;justify-content:space-between;font-size:.72rem;color:var(--ink-3)"><span>Limite usado</span><span class="num">R$ 1.840 / R$ 5.000</span></div>
+        <div style="height:9px;border-radius:6px;background:var(--surface-2);overflow:hidden"><div class="bar on" style="height:100%;width:37%;transform:none;border-radius:6px"></div></div>
+        <div class="mini-row" style="margin-top:14px"><div class="ml"><div class="mi" style="background:#fde8e8;color:#c00">🛒</div><div><div class="mt">Mercado Livre</div><div class="ms">03 mar</div></div></div><div class="mv"><b class="num neg">−R$ 320</b></div></div>
+        <div class="mini-row"><div class="ml"><div class="mi" style="background:var(--brand-wash)">🍽️</div><div><div class="mt">iFood</div><div class="ms">05 mar</div></div></div><div class="mv"><b class="num neg">−R$ 78</b></div></div>
+      </div>
     </div>
-    <div class="steps-grid">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Crie sua conta</h3>
-        <p>Cadastre-se grátis com seu e-mail. Nenhum cartão de crédito necessário. Seu perfil fica protegido com autenticação segura.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Lance suas transações</h3>
-        <p>Lance em 3 segundos: copie um valor de outro app e o Fintab preenche sozinho. Ou deixe detectar pelas notificações do banco.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Analise e tome decisões</h3>
-        <p>Veja gráficos, acompanhe categorias e entenda seus hábitos financeiros com dashboards claros e objetivos.</p>
-      </div>
-    </div>
-  </section>
-</div>
+  </div>
+</section>
 
-<!-- PRIVACY BANNER -->
-<div style="padding: 0 48px; max-width:1196px; margin: 80px auto;">
-  <div class="privacy-banner">
-    <div class="privacy-left">
+<!-- HOW -->
+<section id="como" style="background:var(--surface-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Como funciona</span>
+      <h2 class="h-sec">Comece em menos de 2 minutos</h2>
+      <p class="sub-sec">Sem burocracia, sem importar nada obrigatoriamente. Você no controle desde o primeiro toque.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><h3>Crie sua conta grátis</h3><p>Cadastre-se com e-mail, Apple ou Google. O Fintab pergunta seu jeito de lidar com dinheiro e se adapta a você.</p></div>
+      <div class="step reveal"><h3>Lance em 3 segundos</h3><p>Copie um valor e o app preenche sozinho. Ou lance na mão — leva menos de um minuto.</p></div>
+      <div class="step reveal"><h3>Entenda e decida</h3><p>Gráficos claros, insights automáticos e o quanto você ainda pode gastar até o fim do mês.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section>
+  <div class="wrap">
+    <div class="privacy reveal">
       <h2>Privacidade que você merece</h2>
-      <p>O Fintab não vende dados. Tudo fica na sua conta, acessível só por você.</p>
-      <div class="privacy-pills">
-        <div class="privacy-pill">
-          <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-          Dados criptografados
-        </div>
-        <div class="privacy-pill">
-          <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-          Zero rastreadores
-        </div>
-        <div class="privacy-pill">
-          <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-          Bloqueio por PIN
-        </div>
-        <div class="privacy-pill">
-          <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-          Exportação livre dos dados
-        </div>
+      <p>O Fintab não vive de anúncios nem de vender dados. Suas finanças ficam na sua conta, sincronizadas com segurança, e vão embora com você quando quiser.</p>
+      <div class="pills">
+        <span class="pill"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Não vendemos seus dados</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Sem anúncios</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Bloqueio por PIN e biometria</span>
+        <span class="pill"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Exporte tudo (PDF, Excel, CSV)</span>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- PRICING -->
-<section class="section" id="pricing" style="padding-top: 0;">
-  <div class="center">
-    <div class="section-tag">✦ Planos</div>
-    <h2 class="section-title">Comece grátis,<br />evolua quando quiser</h2>
-    <p class="section-subtitle">Plano gratuito completo para uso pessoal. Pro com <strong>7 dias grátis</strong> para quem quer ir além.</p>
+<section id="planos" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Planos</span>
+      <h2 class="h-sec">Comece grátis,<br>evolua quando quiser</h2>
+      <p class="sub-sec">O plano gratuito já dá conta do dia a dia. O Pro é para quem quer múltiplas contas, cartão, investimentos e finanças compartilhadas.</p>
+    </div>
+
+    <div class="price-grid">
+      <div class="plan reveal">
+        <div class="pname">Gratuito</div>
+        <div class="amount"><b>R$ 0</b><span>/sempre</span></div>
+        <div class="fine">Para começar sem compromisso.</div>
+        <hr>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Lançamentos ilimitados + captura por cópia</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Contas a pagar com lembrete</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Detecção de assinaturas</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Dashboard, relatórios e insights</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Bloqueio por PIN e biometria</li>
+        </ul>
+        <a class="buy" href="#baixar">Baixar grátis</a>
+      </div>
+
+      <div class="plan reveal">
+        <div class="pname">Pro Mensal</div>
+        <div class="amount"><b class="num">R$ 4,90</b><span>/mês</span></div>
+        <div class="fine">7 dias grátis · depois renova todo mês.</div>
+        <hr>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Contas ilimitadas + Carteiras PF/PJ</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Cartão de crédito e faturas</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Investimentos e conversor de moedas</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Orçamentos, metas e recorrentes</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Saúde financeira, import/export, tags</li>
+        </ul>
+        <a class="buy" href="#baixar">Testar 7 dias grátis</a>
+      </div>
+
+      <div class="plan best reveal">
+        <div class="flag">MAIS POPULAR</div>
+        <div class="pname">Pro Anual</div>
+        <div class="amount"><b class="num">R$ 49,90</b><span>/ano</span></div>
+        <div class="fine">≈ R$ 4,16/mês · economize 15%.</div>
+        <hr>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Tudo do Pro, o ano inteiro</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Melhor custo-benefício</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Acesso a todas as novidades</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Suporte prioritário</li>
+        </ul>
+        <a class="buy" href="#baixar">Assinar plano anual</a>
+      </div>
+    </div>
+    <p class="price-note">Assinaturas processadas pela App Store e Google Play. O teste grátis de 7 dias vale no plano mensal; o anual é cobrado no ato. Cancele quando quiser.</p>
   </div>
-  <div class="pricing-grid">
-    <div class="pricing-card">
-      <div class="pricing-plan">Gratuito</div>
-      <div class="pricing-price">R$ 0<span>/sempre</span></div>
-      <div class="pricing-detail">Para começar sem compromisso</div>
-      <hr class="pricing-divider" />
-      <ul class="pricing-features">
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>1 carteira</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Categorias padrão</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Detecção automática</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Captura rápida de gastos</li>
-      </ul>
-      <a href="#download" class="pricing-cta">Baixar grátis</a>
-    </div>
-    <div class="pricing-card">
-      <div class="pricing-plan">Pro Mensal</div>
-      <div class="pricing-price">R$ 4,90<span>/mês</span></div>
-      <div class="pricing-detail">7 dias grátis · depois renovação mensal</div>
-      <hr class="pricing-divider" />
-      <ul class="pricing-features">
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Carteiras ilimitadas</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Categorias personalizadas</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Visão anual</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Compartilhamento</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Metas financeiras</li>
-      </ul>
-      <a href="#download" class="pricing-cta">Começar 7 dias grátis</a>
-    </div>
-    <div class="pricing-card highlighted">
-      <div class="pricing-popular">MAIS POPULAR</div>
-      <div class="pricing-plan">Pro Anual</div>
-      <div class="pricing-price">R$ 49,90<span>/ano</span></div>
-      <div class="pricing-detail">≈ R$ 4,16/mês · Economize 15%</div>
-      <hr class="pricing-divider" />
-      <ul class="pricing-features">
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Tudo do Pro Mensal</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>2 meses grátis</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Acesso completo a novidades</li>
-        <li><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>Suporte prioritário</li>
-      </ul>
-      <a href="#download" class="pricing-cta">Começar 7 dias grátis</a>
-    </div>
-  </div>
-  <p class="pricing-note">Assinaturas processadas pela App Store e Google Play · Cancele quando quiser</p>
 </section>
 
 <!-- DOWNLOAD -->
-<div class="download-bg" id="download">
-  <div class="section-tag" style="margin:0 auto 16px;">✦ Download</div>
-  <h2 class="section-title">Disponível onde você estiver</h2>
-  <p style="color:var(--text-muted);font-size:1rem;margin-top:8px;">No celular ou no navegador, suas finanças sempre com você.</p>
-  <div class="download-badges">
-    <a href="https://apps.apple.com/app/id6776314028" class="store-btn store-btn-apple" target="_blank" rel="noopener">
-      <svg class="store-btn-icon" viewBox="0 0 24 24" fill="#fff">
-        <path d="M16.36 12.78c-.02-2.07 1.69-3.06 1.77-3.11-.97-1.41-2.47-1.6-3-1.62-1.27-.13-2.49.75-3.14.75-.65 0-1.65-.73-2.71-.71-1.39.02-2.68.81-3.4 2.06-1.45 2.51-.37 6.22 1.04 8.26.69 1 1.51 2.12 2.58 2.08 1.04-.04 1.43-.67 2.69-.67 1.25 0 1.61.67 2.71.65 1.12-.02 1.83-1.02 2.51-2.02.79-1.16 1.12-2.28 1.14-2.34-.02-.01-2.18-.84-2.2-3.31zM14.3 6.25c.57-.69.96-1.65.85-2.61-.83.03-1.83.55-2.42 1.24-.53.61-.99 1.59-.87 2.53.93.07 1.87-.47 2.44-1.16z"/>
-      </svg>
-      <div class="store-btn-text">
-        <span class="store-btn-label">Baixar na</span>
-        <span class="store-btn-name">App Store</span>
-      </div>
-    </a>
-    <a href="https://play.google.com/store/apps/details?id=com.alexdev.myfinanceapp" class="store-btn store-btn-play" target="_blank" rel="noopener">
-      <svg class="store-btn-icon" viewBox="0 0 24 24" fill="none">
-        <path d="M3.18 1C2.53 1.37 2 2.18 2 3.13V20.87C2 21.82 2.53 22.63 3.18 23L13.27 12L3.18 1Z" fill="rgba(255,255,255,0.7)"/>
-        <path d="M16.92 8.35L5.04 1.36L13.27 12L16.92 8.35Z" fill="rgba(255,255,255,0.85)"/>
-        <path d="M16.92 15.65L13.27 12L5.04 22.64L16.92 15.65Z" fill="rgba(255,255,255,0.85)"/>
-        <path d="M21.14 10.19C20.56 9.55 19.67 9.15 18.5 9.62L16.92 8.35L13.27 12L16.92 15.65L18.5 14.38C19.67 14.85 20.56 14.45 21.14 13.81C21.72 13.17 22 12.58 22 12C22 11.42 21.72 10.83 21.14 10.19Z" fill="rgba(255,255,255,0.95)"/>
-      </svg>
-      <div class="store-btn-text">
-        <span class="store-btn-label">Baixar na</span>
-        <span class="store-btn-name">Google Play</span>
-      </div>
-    </a>
-    <a href="https://my-finance-app-red-omega.vercel.app" class="store-btn store-btn-web" target="_blank" rel="noopener">
-      <svg class="store-btn-icon" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="9.5" stroke="#00A86B" stroke-width="1.6"/>
-        <ellipse cx="12" cy="12" rx="3.5" ry="9.5" stroke="#00A86B" stroke-width="1.6"/>
-        <path d="M2.5 12H21.5" stroke="#00A86B" stroke-width="1.6" stroke-linecap="round"/>
-        <path d="M4.5 7.5H19.5" stroke="#00A86B" stroke-width="1.2" stroke-linecap="round"/>
-        <path d="M4.5 16.5H19.5" stroke="#00A86B" stroke-width="1.2" stroke-linecap="round"/>
-      </svg>
-      <div class="store-btn-text">
-        <span class="store-btn-label">Acessar pelo</span>
-        <span class="store-btn-name">Navegador Web</span>
-      </div>
-    </a>
+<section class="download" id="baixar">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow" style="margin-bottom:14px">Download</span>
+      <h2 class="h-sec" style="margin-top:14px">Disponível onde você estiver</h2>
+      <p class="sub-sec" style="margin-inline:auto">No celular ou no navegador — suas finanças sempre com você, sincronizadas.</p>
+    </div>
+    <div class="dl-row reveal">
+      <a class="store store-dark" href="https://apps.apple.com/app/id6776314028" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.78c-.02-2.07 1.69-3.06 1.77-3.11-.97-1.41-2.47-1.6-3-1.62-1.27-.13-2.49.75-3.14.75-.65 0-1.65-.73-2.71-.71-1.39.02-2.68.81-3.4 2.06-1.45 2.51-.37 6.22 1.04 8.26.69 1 1.51 2.12 2.58 2.08 1.04-.04 1.43-.67 2.69-.67 1.25 0 1.61.67 2.71.65 1.12-.02 1.83-1.02 2.51-2.02.79-1.16 1.12-2.28 1.14-2.34-.02-.01-2.18-.84-2.2-3.31zM14.3 6.25c.57-.69.96-1.65.85-2.61-.83.03-1.83.55-2.42 1.24-.53.61-.99 1.59-.87 2.53.93.07 1.87-.47 2.44-1.16z"/></svg><div><span>Baixar na</span><b>App Store</b></div></a>
+      <a class="store store-dark" href="https://play.google.com/store/apps/details?id=com.alexdev.myfinanceapp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M3.2 1C2.5 1.4 2 2.2 2 3.1v17.7c0 1 .5 1.8 1.2 2.1L13.3 12 3.2 1Z" fill="#00d162"/><path d="M16.9 8.4 5 1.4 13.3 12l3.6-3.6Z" fill="#00d162"/><path d="M16.9 15.6 13.3 12 5 22.6l11.9-7Z" fill="#00d162"/><path d="M21.1 10.2c-.6-.6-1.5-1-2.6-.6l-1.6 1.3L13.3 12l3.6 3.6 1.6-1.2c1.1.5 2 .1 2.6-.5.6-.7.9-1.3.9-1.9s-.3-1.2-.9-1.8Z" fill="#00d162"/></svg><div><span>Disponível no</span><b>Google Play</b></div></a>
+      <a class="store store-out" href="https://my-finance-app-red-omega.vercel.app" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.3" stroke="currentColor" stroke-width="1.6"/><ellipse cx="12" cy="12" rx="3.4" ry="9.3" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M5 7.5h14M5 16.5h14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><div><span>Acessar pelo</span><b>Navegador</b></div></a>
+    </div>
   </div>
-</div>
+</section>
 
 <!-- CTA FINAL -->
-<section class="cta-section">
-  <div class="cta-inner">
-    <h2>Pronto para ter controle<br />das suas finanças?</h2>
+<section class="cta-final">
+  <div class="wrap reveal">
+    <h2>Pronto para saber<br>para onde vai o seu dinheiro?</h2>
     <p>Grátis para começar, com 7 dias de Pro. Sem cartão de crédito. Leva 2 minutos.</p>
-    <a href="#download" class="btn-primary">
-      Baixar grátis · 7 dias de Pro →
-    </a>
+    <a class="btn-big" href="#baixar">Baixar grátis · 7 dias de Pro →</a>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Fintab</div>
-  <div class="footer-links">
-    <a href="/privacy">Política de Privacidade</a>
-    <a href="/terms">Termos de Uso</a>
-    <a href="mailto:alexandre.filho.dev@gmail.com">Contato</a>
+  <div class="wrap">
+    <div class="logo"><span class="mark" role="img" aria-label="Fintab"></span>Fintab</div>
+    <div class="flinks">
+      <a href="/privacy">Política de Privacidade</a>
+      <a href="/terms">Termos de Uso</a>
+      <a href="mailto:alexandre.filho.dev@gmail.com">Contato</a>
+    </div>
+    <div>© 2026 Alexandre Figueiredo Dev</div>
   </div>
-  <div>© 2026 Alexandre Figueiredo Dev</div>
 </footer>
 
 <script>
   (function(){
-    if (!('IntersectionObserver' in window)) return;
-    var obs = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if (e.isIntersecting){ e.target.classList.add('revealed'); obs.unobserve(e.target); }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
-    document.querySelectorAll('.feature-card, .step, .pricing-card').forEach(function(el){
-      el.classList.add('reveal'); obs.observe(el);
-    });
+    var root = document.documentElement;
+    root.classList.add('js');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Reveal on scroll (+ stagger + bar growth)
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.14, rootMargin: '0px 0px -60px 0px' });
+      document.querySelectorAll('.reveal, .stagger').forEach(function(el){ io.observe(el); });
+    } else {
+      document.querySelectorAll('.reveal, .stagger').forEach(function(el){ el.classList.add('in'); });
+    }
+
+    // Count-up for the hero balance
+    var el = document.querySelector('[data-count]');
+    if (el){
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      var prefix = el.getAttribute('data-prefix') || '';
+      var fmt = function(n){ return prefix + n.toLocaleString('pt-BR'); };
+      if (reduce){ el.textContent = fmt(target); }
+      else {
+        var run = function(){
+          var start = null, dur = 1100;
+          function tick(ts){
+            if (!start) start = ts;
+            var p = Math.min((ts - start)/dur, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = fmt(Math.round(target * eased));
+            if (p < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        };
+        var io2 = new IntersectionObserver(function(en){
+          en.forEach(function(e){ if (e.isIntersecting){ run(); io2.disconnect(); } });
+        }, { threshold: 0.5 });
+        io2.observe(el);
+      }
+    }
   })();
 </script>
-
 </body>
 </html>
